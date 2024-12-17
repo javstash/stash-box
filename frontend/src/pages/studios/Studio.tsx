@@ -45,7 +45,7 @@ const StudioComponent: FC<Props> = ({ studio }) => {
   const studioImage = getImage(studio.images, "landscape");
 
   const subStudios = sortBy(studio.child_studios, (s) =>
-    s.name.toLowerCase()
+    s.name.toLowerCase(),
   ).map((s) => (
     <li key={s.id}>
       <Link to={studioHref(s)}>{s.name}</Link>
@@ -91,6 +91,12 @@ const StudioComponent: FC<Props> = ({ studio }) => {
                 <Link to={studioHref(studio.parent)}>{studio.parent.name}</Link>
               </b>
             </span>
+          )}
+          {studio.aliases.length > 0 && (
+            <div className="d-flex">
+              <b className="me-2">Aliases:</b>
+              <span>{studio.aliases.join(", ")}</span>
+            </div>
           )}
         </div>
         {studioImage && (

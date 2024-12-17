@@ -116,7 +116,7 @@ const SceneList: FC<Props> = ({
               "dir",
               direction === SortDirectionEnum.DESC
                 ? SortDirectionEnum.ASC
-                : SortDirectionEnum.DESC
+                : SortDirectionEnum.DESC,
             )
           }
         >
@@ -139,7 +139,7 @@ const SceneList: FC<Props> = ({
             onChange={(e) =>
               setParams(
                 "favorite",
-                e.currentTarget.checked ? favoriteFilter.toUpperCase() : "NONE"
+                e.currentTarget.checked ? favoriteFilter.toUpperCase() : "NONE",
               )
             }
           />
