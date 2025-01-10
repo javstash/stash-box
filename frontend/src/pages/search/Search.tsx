@@ -30,7 +30,7 @@ import {
   createHref,
   formatDuration,
 } from "src/utils";
-import { ROUTE_SEARCH, ROUTE_SEARCH_INDEX } from "src/constants/route";
+import { ROUTE_SEARCH } from "src/constants/route";
 
 type Performer = NonNullable<SearchAllQuery["searchPerformer"][number]>;
 type Scene = NonNullable<SearchAllQuery["searchScene"][number]>;
@@ -127,7 +127,7 @@ const SceneCard: FC<{ scene: Scene }> = ({ scene }) => (
 );
 
 const Search: FC = () => {
-  const { term } = useParams();
+  const { "*": term } = useParams();
   const navigate = useNavigate();
   const { loading, data } = useSearchAll(
     {
@@ -141,12 +141,9 @@ const Search: FC = () => {
     () =>
       debounce(
         (searchTerm: string) =>
-          navigate(
-            searchTerm
-              ? createHref(ROUTE_SEARCH, { term: searchTerm })
-              : ROUTE_SEARCH_INDEX,
-            { replace: true },
-          ),
+          navigate(createHref(ROUTE_SEARCH, { "*": searchTerm }), {
+            replace: true,
+          }),
         200,
       ),
     [navigate],
