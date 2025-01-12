@@ -3,11 +3,11 @@
 
 // 2. Include any default variable overrides here
 $primary: #137cbd;
-$secondary: #394b59;
+$secondary: #1f1a24; // #394b59
 $success: #0f9960;
 $warning: #d9822b;
 $danger: #db3737;
-$dark: #394b59;
+$dark: #1f1a24; // #394b59
 $text-color: #f5f8fa;
 $muted-gray: #bfccd6;
 $text-muted: $muted-gray;
@@ -79,9 +79,9 @@ $textfield-bg: rgba(16 22 26 / 30%);
   --bs-success: #{$success};
   --bs-warning: #{$warning};
   --bs-danger: #{$danger};
-  --bs-body-bg: #202b33;
+  --bs-body-bg: #292929; // #202b33
   --bs-dark: #{$dark};
-  --bs-dark-rgb: 57, 75, 89;
+  --bs-dark-rgb: 31, 26, 36; // 57, 75, 89;
 }
 
 body {
@@ -256,7 +256,7 @@ hr {
   &-header,
   &-body,
   &-footer {
-    background-color: #30404d;
+    background-color: #423d46; // #30404d
     border-color: transparent;
     color: $text-color;
   }
@@ -267,7 +267,7 @@ hr {
 }
 
 .card {
-  background-color: #30404d;
+  background-color: #423d46; // #30404d
   border: none;
   border-radius: 3px;
   box-shadow:
