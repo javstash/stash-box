@@ -15,6 +15,7 @@ enum NotificationEnum {
   COMMENT_COMMENTED_EDIT
   COMMENT_VOTED_EDIT
   UPDATED_EDIT
+  FINGERPRINTED_SCENE_EDIT
 }
 
 union NotificationData =
@@ -28,6 +29,7 @@ union NotificationData =
    | DownvoteOwnEdit
    | FailedOwnEdit
    | UpdatedEdit
+   | FingerprintedSceneEdit
 
 type FavoritePerformerScene {
   scene: Scene!
@@ -69,6 +71,10 @@ type UpdatedEdit {
   edit: Edit!
 }
 
+type FingerprintedSceneEdit {
+  edit: Edit!
+}
+
 input QueryNotificationsInput {
   page: Int! = 1
   per_page: Int! = 25
@@ -79,4 +85,9 @@ input QueryNotificationsInput {
 type QueryNotificationsResult {
   count: Int!
   notifications: [Notification!]!
+}
+
+input MarkNotificationReadInput {
+  type: NotificationEnum!
+  id: ID!
 }

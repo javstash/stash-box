@@ -240,6 +240,12 @@ type FingerprintSubmission struct {
 	Vote        *FingerprintSubmissionType `json:"vote,omitempty"`
 }
 
+type FingerprintedSceneEdit struct {
+	Edit *Edit `json:"edit"`
+}
+
+func (FingerprintedSceneEdit) IsNotificationData() {}
+
 type FuzzyDate struct {
 	Date     string           `json:"date"`
 	Accuracy DateAccuracyEnum `json:"accuracy"`
@@ -283,6 +289,11 @@ type ImageUpdateInput struct {
 type IntCriterionInput struct {
 	Value    int               `json:"value"`
 	Modifier CriterionModifier `json:"modifier"`
+}
+
+type MarkNotificationReadInput struct {
+	Type NotificationEnum `json:"type"`
+	ID   uuid.UUID        `json:"id"`
 }
 
 type Measurements struct {
@@ -1568,6 +1579,7 @@ const (
 	NotificationEnumCommentCommentedEdit   NotificationEnum = "COMMENT_COMMENTED_EDIT"
 	NotificationEnumCommentVotedEdit       NotificationEnum = "COMMENT_VOTED_EDIT"
 	NotificationEnumUpdatedEdit            NotificationEnum = "UPDATED_EDIT"
+	NotificationEnumFingerprintedSceneEdit NotificationEnum = "FINGERPRINTED_SCENE_EDIT"
 )
 
 var AllNotificationEnum = []NotificationEnum{
@@ -1581,11 +1593,12 @@ var AllNotificationEnum = []NotificationEnum{
 	NotificationEnumCommentCommentedEdit,
 	NotificationEnumCommentVotedEdit,
 	NotificationEnumUpdatedEdit,
+	NotificationEnumFingerprintedSceneEdit,
 }
 
 func (e NotificationEnum) IsValid() bool {
 	switch e {
-	case NotificationEnumFavoritePerformerScene, NotificationEnumFavoritePerformerEdit, NotificationEnumFavoriteStudioScene, NotificationEnumFavoriteStudioEdit, NotificationEnumCommentOwnEdit, NotificationEnumDownvoteOwnEdit, NotificationEnumFailedOwnEdit, NotificationEnumCommentCommentedEdit, NotificationEnumCommentVotedEdit, NotificationEnumUpdatedEdit:
+	case NotificationEnumFavoritePerformerScene, NotificationEnumFavoritePerformerEdit, NotificationEnumFavoriteStudioScene, NotificationEnumFavoriteStudioEdit, NotificationEnumCommentOwnEdit, NotificationEnumDownvoteOwnEdit, NotificationEnumFailedOwnEdit, NotificationEnumCommentCommentedEdit, NotificationEnumCommentVotedEdit, NotificationEnumUpdatedEdit, NotificationEnumFingerprintedSceneEdit:
 		return true
 	}
 	return false
