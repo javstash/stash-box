@@ -43,6 +43,7 @@ const UserSceneLine: FC<Props> = ({ scene, deleteFingerprints }) => (
       <td>
         <Link to={sceneHref(scene)}>{scene.title}</Link>
       </td>
+      <td>{scene.code}</td>
       <td>
         {scene.studio && (
           <Link

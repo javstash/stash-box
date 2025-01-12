@@ -5705,6 +5705,7 @@ type QueryScenesResultType {
 
 enum SceneSortEnum {
   TITLE
+  CODE
   DATE
   TRENDING
   CREATED_AT
