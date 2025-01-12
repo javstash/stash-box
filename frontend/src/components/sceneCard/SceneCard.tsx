@@ -12,7 +12,7 @@ import {
   formatDuration,
   imageType,
 } from "src/utils";
-import { Icon, Thumbnail, PerformerName } from "src/components/fragments";
+import { Icon, Thumbnail, SceneCardPerformerName } from "src/components/fragments";
 
 type Performance = Pick<
   Scene,
@@ -36,11 +36,11 @@ const SceneCard: FC<{ scene: Performance }> = ({ scene }) => {
           to={performerHref(performer)}
           className="scene-performer"
         >
-          <PerformerName performer={performer} />
+          <SceneCardPerformerName performer={performer} />
         </Link>
       );
     })
-    .map((p, index) => (index % 2 === 2 ? [" • ", p] : p));
+    .map((p, index) => (index % 2 === 2 ? [", ", p] : p));
 
     return (
     <Card className={CLASSNAME}>
