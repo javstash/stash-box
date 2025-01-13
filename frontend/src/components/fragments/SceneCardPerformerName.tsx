@@ -6,15 +6,15 @@ interface PerformerNameProps {
 }
 
 const SceneCardPerformerName: FC<PerformerNameProps> = ({ performer }) => {
-    return (
-      <>
-        {performer.deleted ? (
-          <del>{performer.name}</del>
-        ) : (
-          <span>{performer.name}</span>
-        )}
-      </>
-    );
+  return (
+    <>
+      {performer.deleted ? (
+        <del>{performer.name}</del>
+      ) : (
+        <span>{performer.name}</span>
+      )}
+    </>
+  );
 };
 
 export default SceneCardPerformerName;

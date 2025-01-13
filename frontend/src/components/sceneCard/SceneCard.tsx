@@ -12,11 +12,21 @@ import {
   formatDuration,
   imageType,
 } from "src/utils";
-import { Icon, Thumbnail, SceneCardPerformerName } from "src/components/fragments";
+import {
+  Icon,
+  Thumbnail,
+  SceneCardPerformerName,
+} from "src/components/fragments";
 
 type Performance = Pick<
   Scene,
-  "id" | "title" | "images" | "duration" | "code" | "release_date" | "performers"
+  | "id"
+  | "title"
+  | "images"
+  | "duration"
+  | "code"
+  | "release_date"
+  | "performers"
 > & {
   studio?: Pick<Studio, "id" | "name"> | null;
 };
@@ -26,7 +36,6 @@ const CLASSNAME_IMAGE = `${CLASSNAME}-image`;
 const CLASSNAME_BODY = `${CLASSNAME}-body`;
 
 const SceneCard: FC<{ scene: Performance }> = ({ scene }) => {
-
   const performers = scene.performers
     .map((performance) => {
       const { performer } = performance;
@@ -40,9 +49,9 @@ const SceneCard: FC<{ scene: Performance }> = ({ scene }) => {
         </Link>
       );
     })
-    .map((p, index) => (index % 2 === 2 ? [", ", p] : p));
+    .map((p, index) => (index % 2 === 2 ? [" ", p] : p));
 
-    return (
+  return (
     <Card className={CLASSNAME}>
       <Card.Body className={CLASSNAME_BODY}>
         <Link className={CLASSNAME_IMAGE} to={sceneHref(scene)}>
@@ -64,16 +73,10 @@ const SceneCard: FC<{ scene: Performance }> = ({ scene }) => {
             <h6 className="text-truncate">{scene.title}</h6>
           </Link>
         </div>
-        <div className="text-truncate w-100 scene-performers me-auto">{performers}</div>
         <div className="text-muted">
           <Link className="text-truncate w-100" to={sceneHref(scene)}>
             <strong>{scene.code}</strong>
           </Link>
-          <span className="text-muted float-end">
-            {scene.duration ? formatDuration(scene.duration) : ""}
-          </span>
-        </div>
-        <div className="text-muted">
           {scene.studio && (
             <Link
               to={studioHref(scene.studio)}
@@ -83,7 +86,15 @@ const SceneCard: FC<{ scene: Performance }> = ({ scene }) => {
               {scene.studio.name}
             </Link>
           )}
+        </div>
+        <div className="text-muted">
           <strong>{scene.release_date}</strong>
+          <span className="text-muted float-end">
+            {scene.duration ? formatDuration(scene.duration) : ""}
+          </span>
+          <div className="scene-performers me-auto">
+            <strong>{performers}</strong>
+          </div>
         </div>
       </Card.Footer>
     </Card>
