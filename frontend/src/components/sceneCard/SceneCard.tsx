@@ -19,14 +19,7 @@ import {
 } from "src/components/fragments";
 
 type Performance = Pick<
-  Scene,
-  | "id"
-  | "title"
-  | "images"
-  | "duration"
-  | "code"
-  | "release_date"
-  | "performers"
+  Scene, | "id" | "title" | "images" | "duration" | "code" | "release_date" | "performers"
 > & {
   studio?: Pick<Studio, "id" | "name"> | null;
 };
@@ -73,6 +66,9 @@ const SceneCard: FC<{ scene: Performance }> = ({ scene }) => {
             <h6 className="text-truncate">{scene.title}</h6>
           </Link>
         </div>
+        <div className="text-truncate w-100 scene-performers me-auto">
+          <strong>{performers}</strong>
+        </div>
         <div className="text-muted">
           <Link className="text-truncate w-100" to={sceneHref(scene)}>
             <strong>{scene.code}</strong>
@@ -92,9 +88,6 @@ const SceneCard: FC<{ scene: Performance }> = ({ scene }) => {
           <span className="text-muted float-end">
             {scene.duration ? formatDuration(scene.duration) : ""}
           </span>
-          <div className="scene-performers me-auto">
-            <strong>{performers}</strong>
-          </div>
         </div>
       </Card.Footer>
     </Card>
