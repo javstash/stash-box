@@ -19,7 +19,14 @@ import {
 } from "src/components/fragments";
 
 type Performance = Pick<
-  Scene, | "id" | "title" | "images" | "duration" | "code" | "release_date" | "performers"
+  Scene,
+  | "id"
+  | "title"
+  | "images"
+  | "duration"
+  | "code"
+  | "release_date"
+  | "performers"
 > & {
   studio?: Pick<Studio, "id" | "name"> | null;
 };
