@@ -267,9 +267,9 @@ func (qb *tagQueryBuilder) SearchTags(term string, limit int) ([]*models.Tag, er
 		SELECT T.* FROM tags T
 		LEFT JOIN tag_aliases TA ON TA.tag_id = T.id
 		WHERE (
-			to_tsvector('english', T.name) ||
-			to_tsvector('english', COALESCE(TA.alias, ''))
-		) @@ plainto_tsquery($1)
+			to_tsvector('config_2_gram_cjk', T.name) ||
+			to_tsvector('config_2_gram_cjk', COALESCE(TA.alias, ''))
+		) @@ plainto_tsquery('config_2_gram_cjk', $1)
 		AND T.deleted = FALSE
 		GROUP BY T.id
 		ORDER BY T.name ASC
