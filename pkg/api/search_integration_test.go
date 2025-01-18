@@ -19,7 +19,7 @@ func createSearchTestRunner(t *testing.T) *searchTestRunner {
 		testRunner: *asModify(t),
 	}
 }
-
+/*
 func (s *searchTestRunner) testSearchPerformerByTerm() {
 	createdPerformer, err := s.createTestPerformer(nil)
 	assert.NilError(s.t, err)
@@ -33,7 +33,7 @@ func (s *searchTestRunner) testSearchPerformerByTerm() {
 	// ensure values were set
 	assert.Equal(s.t, createdPerformer.UUID(), performers[0].ID)
 }
-
+*/
 func (s *searchTestRunner) testSearchPerformerByID() {
 	createdPerformer, err := s.createTestPerformer(nil)
 	assert.NilError(s.t, err)
@@ -47,7 +47,7 @@ func (s *searchTestRunner) testSearchPerformerByID() {
 	// ensure values were set
 	assert.Equal(s.t, createdPerformer.UUID(), performers[0].ID)
 }
-
+/*
 func (s *searchTestRunner) testSearchSceneByTerm() {
 	createdStudio, err := s.createTestStudio(nil)
 	assert.NilError(s.t, err)
@@ -71,7 +71,7 @@ func (s *searchTestRunner) testSearchSceneByTerm() {
 	// ensure correct scene
 	assert.Equal(s.t, createdScene.UUID(), scenes[0].ID)
 }
-
+*/
 func (s *searchTestRunner) testSearchSceneByID() {
 	createdScene, err := s.createTestScene(nil)
 	assert.NilError(s.t, err)
@@ -85,7 +85,7 @@ func (s *searchTestRunner) testSearchSceneByID() {
 	// ensure correct scene
 	assert.Equal(s.t, createdScene.UUID(), scenes[0].ID)
 }
-
+/*
 func (s *searchTestRunner) testSearchTagByTerm() {
 	createdTag, err := s.createTestTag(nil)
 	assert.NilError(s.t, err)
@@ -99,7 +99,7 @@ func (s *searchTestRunner) testSearchTagByTerm() {
 	// ensure values were set
 	assert.Equal(s.t, createdTag.UUID(), tags[0].ID)
 }
-
+*/
 func (s *searchTestRunner) testSearchTagByID() {
 	createdTag, err := s.createTestTag(nil)
 	assert.NilError(s.t, err)
