@@ -267,8 +267,8 @@ func (qb *tagQueryBuilder) SearchTags(term string, limit int) ([]*models.Tag, er
 		SELECT T.* FROM tags T
 		LEFT JOIN tag_aliases TA ON TA.tag_id = T.id
 		WHERE (
-			to_tsvector('english', T.name) ||
-			to_tsvector('english', COALESCE(TA.alias, ''))
+			to_tsvector(T.name) ||
+			to_tsvector(COALESCE(TA.alias, ''))
 		) @@ plainto_tsquery($1)
 		AND T.deleted = FALSE
 		GROUP BY T.id
