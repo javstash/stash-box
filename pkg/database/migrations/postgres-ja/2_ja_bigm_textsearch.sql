@@ -43,7 +43,7 @@ SET
     scene_title = NEW.title,
     scene_date = NEW.date,
     studio_name = SUBQUERY.studio_name,
-    scene_code = NEW.code
+    scene_code = NEW.code || ' ' || REGEXP_REPLACE(NEW.code, '[-]', ' ', 'g')
 FROM (
     SELECT S.id as sid, T.name || ' ' || CASE WHEN TP.name IS NOT NULL THEN (TP.name) ELSE '' END AS studio_name
     FROM scenes S
@@ -67,7 +67,7 @@ SELECT
     NEW.title,
     NEW.date,
     T.name || ' ' || CASE WHEN TP.name IS NOT NULL THEN (TP.name) ELSE '' END,
-    NEW.code
+    NEW.code || ' ' || REGEXP_REPLACE(NEW.code, '[-]', ' ', 'g')
 FROM studios T
 LEFT JOIN studios TP ON T.parent_studio_id = TP.id
 WHERE T.id = NEW.studio_id;
@@ -87,7 +87,7 @@ SELECT
     S.date::TEXT AS scene_date,
     T.name || ' ' || CASE WHEN TP.name IS NOT NULL THEN (TP.name) ELSE '' END AS studio_name,
     ARRAY_TO_STRING(ARRAY_CAT(ARRAY_AGG(P.name), ARRAY_AGG(PS.as)), ' ', '') AS performer_names,
-    S.code as scene_code
+    S.code || ' ' || REGEXP_REPLACE(S.code, '[-]', ' ', 'g') as scene_code
 FROM scenes S
 LEFT JOIN scene_performers PS ON PS.scene_id = S.id
 LEFT JOIN performers P ON PS.performer_id = P.id
