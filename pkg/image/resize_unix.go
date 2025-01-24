@@ -34,17 +34,6 @@ func Resize(reader io.Reader, maxSize int, dbimage *models.Image, fileSize int64
 		return imageBytes, err
 	}
 
-	format := image.Format()
-
-	if format == vips.ImageTypePNG {
-		ep := vips.NewWebpExportParams()
-		ep.StripMetadata = true
-		ep.Lossless = true
-
-		imageBytes, _, err := image.ExportWebp(ep)
-		return imageBytes, err
-	}
-
 	ep := vips.NewJpegExportParams()
 	ep.StripMetadata = true
 	ep.Quality = config.GetImageJpegQuality()
