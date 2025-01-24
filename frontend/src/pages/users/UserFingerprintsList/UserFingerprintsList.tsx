@@ -31,10 +31,7 @@ interface Props {
 
 const sortOptions = [
   { value: SceneSortEnum.DATE, label: "Release Date" },
-<<<<<<< HEAD
   { value: SceneSortEnum.CODE, label: "Code" },
-=======
->>>>>>> My fingerprints: Add tag filter and title sorting, and fix trending (#911)
   { value: SceneSortEnum.TITLE, label: "Title" },
   { value: SceneSortEnum.TRENDING, label: "Trending" },
   { value: SceneSortEnum.CREATED_AT, label: "Created At" },
