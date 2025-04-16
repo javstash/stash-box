@@ -39,6 +39,7 @@ fragment SceneFragment on Scene {
     part
     submissions
     reports
+    user_part_set
     user_submitted
     user_reported
     created

@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Fingerprint, useUnmatchFingerprint } from "src/graphql";
-import { useCurrentUser, useToast } from "src/hooks";
+import { useToast } from "src/hooks";
 import { createHref, formatDate, formatDuration } from "src/utils";
 import { ROUTE_SCENES } from "src/constants/route";
 import { Icon } from "src/components/fragments";
@@ -25,7 +25,6 @@ interface Props {
 type MatchType = "submission" | "report";
 
 export const FingerprintTable: FC<Props> = ({ scene }) => {
-  const { isAdmin } = useCurrentUser();
   const addToast = useToast();
 
   const [unmatchFingerprint, { loading: unmatching }] = useUnmatchFingerprint();
@@ -125,12 +124,14 @@ export const FingerprintTable: FC<Props> = ({ scene }) => {
                   </span>
                 </td>
                 <td>
-                  {fingerprint.part > 0 && fingerprint.part}
-                  {(isAdmin || fingerprint.user_submitted) && (
+                  <span title="Most popular part number from this fingerprint's submissions (see My Fingerprints for your part number)">
+                    {fingerprint.part}
+                  </span>
+                  {fingerprint.user_submitted && (
                     <FingerprintPart
                       sceneId={scene.id}
                       fingerprintId={fingerprint.id}
-                      currentPart={fingerprint.part}
+                      userPartSet={fingerprint.user_part_set}
                     />
                   )}
                 </td>

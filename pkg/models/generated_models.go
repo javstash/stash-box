@@ -200,13 +200,15 @@ type Fingerprint struct {
 	Algorithm FingerprintAlgorithm `json:"algorithm"`
 	Duration  int                  `json:"duration"`
 	// number of part if the official release consists of multiple files
-	Part int `json:"part"`
+	Part *int `json:"part,omitempty"`
 	// number of times this fingerprint has been submitted (excluding reports)
 	Submissions int `json:"submissions"`
 	// number of times this fingerprint has been reported
 	Reports int       `json:"reports"`
 	Created time.Time `json:"created"`
 	Updated time.Time `json:"updated"`
+	// true if the current user set the part number
+	UserPartSet bool `json:"user_part_set"`
 	// true if the current user submitted this fingerprint
 	UserSubmitted bool `json:"user_submitted"`
 	// true if the current user reported this fingerprint
@@ -218,7 +220,7 @@ type FingerprintEditInput struct {
 	Hash        string               `json:"hash"`
 	Algorithm   FingerprintAlgorithm `json:"algorithm"`
 	Duration    int                  `json:"duration"`
-	Part        int                  `json:"part"`
+	Part        *int                 `json:"part,omitempty"`
 	Created     time.Time            `json:"created"`
 	Submissions *int                 `json:"submissions,omitempty"`
 	Updated     *time.Time           `json:"updated,omitempty"`

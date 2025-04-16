@@ -13,7 +13,7 @@ interface Props {
     hash: string;
     duration: number;
     algorithm: FingerprintAlgorithm;
-    part: number;
+    part?: number | null;
   };
   deleteFingerprint: () => void;
 }
@@ -39,9 +39,9 @@ export const UserFingerprint: FC<Props> = ({
         <FingerprintPart
           sceneId={scene_id}
           fingerprintId={fingerprint.id}
-          currentPart={fingerprint.part}
+          userPartSet={fingerprint.part !== null}
         />
-        {fingerprint.part !== -1 && `Part: ${fingerprint.part}`}
+        {fingerprint.part !== null && `Part: ${fingerprint.part}`}
       </span>
     </div>
   </li>

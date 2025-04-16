@@ -177,7 +177,7 @@ type Mutation {
   """Matches/unmatches a scene to fingerprint"""
   submitFingerprint(input: FingerprintSubmission!): Boolean! @hasRole(role: READ)
   """Update scene fingerprint with a part number"""
-  fingerprintPartUpdate(scene_id: ID!, fingerprint_id: Int!, part: Int!): Boolean! @hasRole(role: EDIT)
+  fingerprintPartUpdate(scene_id: ID!, fingerprint_id: Int!, part: Int): Boolean! @hasRole(role: EDIT)
 
   """Draft submissions"""
   submitSceneDraft(input: SceneDraftInput!): DraftSubmissionStatus! @hasRole(role: EDIT)

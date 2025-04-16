@@ -341,12 +341,14 @@ export type Fingerprint = {
   hash: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   /** number of part if the official release consists of multiple files */
-  part: Scalars["Int"]["output"];
+  part?: Maybe<Scalars["Int"]["output"]>;
   /** number of times this fingerprint has been reported */
   reports: Scalars["Int"]["output"];
   /** number of times this fingerprint has been submitted (excluding reports) */
   submissions: Scalars["Int"]["output"];
   updated: Scalars["Time"]["output"];
+  /** true if the current user set the part number */
+  user_part_set: Scalars["Boolean"]["output"];
   /** true if the current user reported this fingerprint */
   user_reported: Scalars["Boolean"]["output"];
   /** true if the current user submitted this fingerprint */
@@ -364,7 +366,7 @@ export type FingerprintEditInput = {
   created: Scalars["Time"]["input"];
   duration: Scalars["Int"]["input"];
   hash: Scalars["String"]["input"];
-  part: Scalars["Int"]["input"];
+  part?: InputMaybe<Scalars["Int"]["input"]>;
   /** @deprecated Unused */
   submissions?: InputMaybe<Scalars["Int"]["input"]>;
   /** @deprecated Unused */
@@ -657,7 +659,7 @@ export type MutationFavoriteStudioArgs = {
 
 export type MutationFingerprintPartUpdateArgs = {
   fingerprint_id: Scalars["Int"]["input"];
-  part: Scalars["Int"]["input"];
+  part?: InputMaybe<Scalars["Int"]["input"]>;
   scene_id: Scalars["ID"]["input"];
 };
 
@@ -2292,9 +2294,10 @@ export type EditFragment = {
           hash: string;
           algorithm: FingerprintAlgorithm;
           duration: number;
-          part: number;
+          part?: number | null;
           submissions: number;
           reports: number;
+          user_part_set: boolean;
           user_submitted: boolean;
           user_reported: boolean;
           created: string;
@@ -3089,9 +3092,10 @@ export type EditFragment = {
           hash: string;
           algorithm: FingerprintAlgorithm;
           duration: number;
-          part: number;
+          part?: number | null;
           submissions: number;
           reports: number;
+          user_part_set: boolean;
           user_submitted: boolean;
           user_reported: boolean;
           created: string;
@@ -3299,9 +3303,10 @@ export type SceneFragment = {
     hash: string;
     algorithm: FingerprintAlgorithm;
     duration: number;
-    part: number;
+    part?: number | null;
     submissions: number;
     reports: number;
+    user_part_set: boolean;
     user_submitted: boolean;
     user_reported: boolean;
     created: string;
@@ -3672,9 +3677,10 @@ export type ApplyEditMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -4524,9 +4530,10 @@ export type ApplyEditMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -4945,9 +4952,10 @@ export type PerformerEditMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -5797,9 +5805,10 @@ export type PerformerEditMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -6010,9 +6019,10 @@ export type PerformerEditUpdateMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -6862,9 +6872,10 @@ export type PerformerEditUpdateMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -7119,9 +7130,10 @@ export type SceneEditMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -7971,9 +7983,10 @@ export type SceneEditMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -8184,9 +8197,10 @@ export type SceneEditUpdateMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -9036,9 +9050,10 @@ export type SceneEditUpdateMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -9248,9 +9263,10 @@ export type StudioEditMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -10100,9 +10116,10 @@ export type StudioEditMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -10313,9 +10330,10 @@ export type StudioEditUpdateMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -11165,9 +11183,10 @@ export type StudioEditUpdateMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -11377,9 +11396,10 @@ export type TagEditMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -12229,9 +12249,10 @@ export type TagEditMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -12442,9 +12463,10 @@ export type TagEditUpdateMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -13294,9 +13316,10 @@ export type TagEditUpdateMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -13378,7 +13401,7 @@ export type UnmatchFingerprintMutation = {
 export type UpdateFingerprintMutationVariables = Exact<{
   scene_id: Scalars["ID"]["input"];
   fingerprint_id: Scalars["Int"]["input"];
-  part: Scalars["Int"]["input"];
+  part?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
 export type UpdateFingerprintMutation = {
@@ -13672,9 +13695,10 @@ export type VoteMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -14524,9 +14548,10 @@ export type VoteMutation = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -14993,9 +15018,10 @@ export type EditQuery = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -15845,9 +15871,10 @@ export type EditQuery = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -16051,9 +16078,10 @@ export type EditUpdateQuery = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -16514,9 +16542,10 @@ export type EditsQuery = {
               hash: string;
               algorithm: FingerprintAlgorithm;
               duration: number;
-              part: number;
+              part?: number | null;
               submissions: number;
               reports: number;
+              user_part_set: boolean;
               user_submitted: boolean;
               user_reported: boolean;
               created: string;
@@ -17386,9 +17415,10 @@ export type EditsQuery = {
               hash: string;
               algorithm: FingerprintAlgorithm;
               duration: number;
-              part: number;
+              part?: number | null;
               submissions: number;
               reports: number;
+              user_part_set: boolean;
               user_submitted: boolean;
               user_reported: boolean;
               created: string;
@@ -17886,9 +17916,10 @@ export type QueryExistingPerformerQuery = {
               hash: string;
               algorithm: FingerprintAlgorithm;
               duration: number;
-              part: number;
+              part?: number | null;
               submissions: number;
               reports: number;
+              user_part_set: boolean;
               user_submitted: boolean;
               user_reported: boolean;
               created: string;
@@ -18758,9 +18789,10 @@ export type QueryExistingPerformerQuery = {
               hash: string;
               algorithm: FingerprintAlgorithm;
               duration: number;
-              part: number;
+              part?: number | null;
               submissions: number;
               reports: number;
+              user_part_set: boolean;
               user_submitted: boolean;
               user_reported: boolean;
               created: string;
@@ -18884,9 +18916,10 @@ export type QueryExistingSceneQuery = {
         hash: string;
         algorithm: FingerprintAlgorithm;
         duration: number;
-        part: number;
+        part?: number | null;
         submissions: number;
         reports: number;
+        user_part_set: boolean;
         user_submitted: boolean;
         user_reported: boolean;
         created: string;
@@ -19041,9 +19074,10 @@ export type QueryExistingSceneQuery = {
               hash: string;
               algorithm: FingerprintAlgorithm;
               duration: number;
-              part: number;
+              part?: number | null;
               submissions: number;
               reports: number;
+              user_part_set: boolean;
               user_submitted: boolean;
               user_reported: boolean;
               created: string;
@@ -19913,9 +19947,10 @@ export type QueryExistingSceneQuery = {
               hash: string;
               algorithm: FingerprintAlgorithm;
               duration: number;
-              part: number;
+              part?: number | null;
               submissions: number;
               reports: number;
+              user_part_set: boolean;
               user_submitted: boolean;
               user_reported: boolean;
               created: string;
@@ -20125,9 +20160,10 @@ export type NotificationCommentFragment = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -20977,9 +21013,10 @@ export type NotificationCommentFragment = {
             hash: string;
             algorithm: FingerprintAlgorithm;
             duration: number;
-            part: number;
+            part?: number | null;
             submissions: number;
             reports: number;
+            user_part_set: boolean;
             user_submitted: boolean;
             user_reported: boolean;
             created: string;
@@ -21217,9 +21254,10 @@ export type NotificationsQuery = {
                         hash: string;
                         algorithm: FingerprintAlgorithm;
                         duration: number;
-                        part: number;
+                        part?: number | null;
                         submissions: number;
                         reports: number;
+                        user_part_set: boolean;
                         user_submitted: boolean;
                         user_reported: boolean;
                         created: string;
@@ -22093,9 +22131,10 @@ export type NotificationsQuery = {
                         hash: string;
                         algorithm: FingerprintAlgorithm;
                         duration: number;
-                        part: number;
+                        part?: number | null;
                         submissions: number;
                         reports: number;
+                        user_part_set: boolean;
                         user_submitted: boolean;
                         user_reported: boolean;
                         created: string;
@@ -22323,9 +22362,10 @@ export type NotificationsQuery = {
                         hash: string;
                         algorithm: FingerprintAlgorithm;
                         duration: number;
-                        part: number;
+                        part?: number | null;
                         submissions: number;
                         reports: number;
+                        user_part_set: boolean;
                         user_submitted: boolean;
                         user_reported: boolean;
                         created: string;
@@ -23199,9 +23239,10 @@ export type NotificationsQuery = {
                         hash: string;
                         algorithm: FingerprintAlgorithm;
                         duration: number;
-                        part: number;
+                        part?: number | null;
                         submissions: number;
                         reports: number;
+                        user_part_set: boolean;
                         user_submitted: boolean;
                         user_reported: boolean;
                         created: string;
@@ -23429,9 +23470,10 @@ export type NotificationsQuery = {
                         hash: string;
                         algorithm: FingerprintAlgorithm;
                         duration: number;
-                        part: number;
+                        part?: number | null;
                         submissions: number;
                         reports: number;
+                        user_part_set: boolean;
                         user_submitted: boolean;
                         user_reported: boolean;
                         created: string;
@@ -24305,9 +24347,10 @@ export type NotificationsQuery = {
                         hash: string;
                         algorithm: FingerprintAlgorithm;
                         duration: number;
-                        part: number;
+                        part?: number | null;
                         submissions: number;
                         reports: number;
+                        user_part_set: boolean;
                         user_submitted: boolean;
                         user_reported: boolean;
                         created: string;
@@ -24522,9 +24565,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -25398,9 +25442,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -25613,9 +25658,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -26489,9 +26535,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -26704,9 +26751,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -27580,9 +27628,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -27711,9 +27760,10 @@ export type NotificationsQuery = {
                 hash: string;
                 algorithm: FingerprintAlgorithm;
                 duration: number;
-                part: number;
+                part?: number | null;
                 submissions: number;
                 reports: number;
+                user_part_set: boolean;
                 user_submitted: boolean;
                 user_reported: boolean;
                 created: string;
@@ -27871,9 +27921,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -28747,9 +28798,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -28878,9 +28930,10 @@ export type NotificationsQuery = {
                 hash: string;
                 algorithm: FingerprintAlgorithm;
                 duration: number;
-                part: number;
+                part?: number | null;
                 submissions: number;
                 reports: number;
+                user_part_set: boolean;
                 user_submitted: boolean;
                 user_reported: boolean;
                 created: string;
@@ -29038,9 +29091,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -29914,9 +29968,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -30129,9 +30184,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -31005,9 +31061,10 @@ export type NotificationsQuery = {
                       hash: string;
                       algorithm: FingerprintAlgorithm;
                       duration: number;
-                      part: number;
+                      part?: number | null;
                       submissions: number;
                       reports: number;
+                      user_part_set: boolean;
                       user_submitted: boolean;
                       user_reported: boolean;
                       created: string;
@@ -31135,9 +31192,10 @@ export type SceneQuery = {
       hash: string;
       algorithm: FingerprintAlgorithm;
       duration: number;
-      part: number;
+      part?: number | null;
       submissions: number;
       reports: number;
+      user_part_set: boolean;
       user_submitted: boolean;
       user_reported: boolean;
       created: string;
@@ -31290,7 +31348,7 @@ export type ScenesWithFingerprintsQuery = {
         hash: string;
         algorithm: FingerprintAlgorithm;
         duration: number;
-        part: number;
+        part?: number | null;
         submissions: number;
         user_submitted: boolean;
         created: string;
@@ -32537,6 +32595,10 @@ export const SceneFragmentDoc = {
                 { kind: "Field", name: { kind: "Name", value: "part" } },
                 { kind: "Field", name: { kind: "Name", value: "submissions" } },
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
@@ -34183,6 +34245,10 @@ export const EditFragmentDoc = {
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
                 {
                   kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
+                {
+                  kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
                 },
                 {
@@ -34632,6 +34698,10 @@ export const NotificationCommentFragmentDoc = {
                 { kind: "Field", name: { kind: "Name", value: "part" } },
                 { kind: "Field", name: { kind: "Name", value: "submissions" } },
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
@@ -36804,6 +36874,10 @@ export const ApplyEditDocument = {
                 { kind: "Field", name: { kind: "Name", value: "part" } },
                 { kind: "Field", name: { kind: "Name", value: "submissions" } },
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
@@ -39393,6 +39467,10 @@ export const PerformerEditDocument = {
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
                 {
                   kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
+                {
+                  kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
                 },
                 {
@@ -41036,6 +41114,10 @@ export const PerformerEditUpdateDocument = {
                 { kind: "Field", name: { kind: "Name", value: "part" } },
                 { kind: "Field", name: { kind: "Name", value: "submissions" } },
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
@@ -42869,6 +42951,10 @@ export const SceneEditDocument = {
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
                 {
                   kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
+                {
+                  kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
                 },
                 {
@@ -44511,6 +44597,10 @@ export const SceneEditUpdateDocument = {
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
                 {
                   kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
+                {
+                  kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
                 },
                 {
@@ -46138,6 +46228,10 @@ export const StudioEditDocument = {
                 { kind: "Field", name: { kind: "Name", value: "part" } },
                 { kind: "Field", name: { kind: "Name", value: "submissions" } },
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
@@ -47782,6 +47876,10 @@ export const StudioEditUpdateDocument = {
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
                 {
                   kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
+                {
+                  kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
                 },
                 {
@@ -49409,6 +49507,10 @@ export const TagEditDocument = {
                 { kind: "Field", name: { kind: "Name", value: "part" } },
                 { kind: "Field", name: { kind: "Name", value: "submissions" } },
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
@@ -51053,6 +51155,10 @@ export const TagEditUpdateDocument = {
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
                 {
                   kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
+                {
+                  kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
                 },
                 {
@@ -52419,10 +52525,7 @@ export const UpdateFingerprintDocument = {
         {
           kind: "VariableDefinition",
           variable: { kind: "Variable", name: { kind: "Name", value: "part" } },
-          type: {
-            kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
-          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
         },
       ],
       selectionSet: {
@@ -53495,6 +53598,10 @@ export const VoteDocument = {
                 { kind: "Field", name: { kind: "Name", value: "part" } },
                 { kind: "Field", name: { kind: "Name", value: "submissions" } },
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
@@ -55984,6 +56091,10 @@ export const EditDocument = {
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
                 {
                   kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
+                {
+                  kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
                 },
                 {
@@ -58197,6 +58308,10 @@ export const EditUpdateDocument = {
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
                 {
                   kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
+                {
+                  kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
                 },
                 {
@@ -58675,6 +58790,10 @@ export const EditsDocument = {
                 { kind: "Field", name: { kind: "Name", value: "part" } },
                 { kind: "Field", name: { kind: "Name", value: "submissions" } },
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
@@ -61188,6 +61307,10 @@ export const QueryExistingPerformerDocument = {
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
                 {
                   kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
+                {
+                  kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
                 },
                 {
@@ -62837,6 +62960,10 @@ export const QueryExistingSceneDocument = {
                 { kind: "Field", name: { kind: "Name", value: "part" } },
                 { kind: "Field", name: { kind: "Name", value: "submissions" } },
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
@@ -64827,6 +64954,10 @@ export const NotificationsDocument = {
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
                 {
                   kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
+                {
+                  kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },
                 },
                 {
@@ -66269,6 +66400,10 @@ export const SceneDocument = {
                 { kind: "Field", name: { kind: "Name", value: "part" } },
                 { kind: "Field", name: { kind: "Name", value: "submissions" } },
                 { kind: "Field", name: { kind: "Name", value: "reports" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "user_part_set" },
+                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "user_submitted" },

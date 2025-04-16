@@ -110,7 +110,7 @@ type SceneFingerprint struct {
 	Algorithm string    `db:"algorithm" json:"algorithm"`
 	Duration  int       `db:"duration" json:"duration"`
 	CreatedAt time.Time `db:"created_at" json:"created_at"`
-	Part      int       `db:"part" json:"part"`
+	Part      *int      `json:"part,omitempty"`
 	Vote      int       `db:"vote" json:"vote"`
 }
 

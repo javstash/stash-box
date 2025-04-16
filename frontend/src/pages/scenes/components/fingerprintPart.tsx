@@ -7,23 +7,23 @@ import { useUpdateFingerprintPart } from "src/graphql";
 interface Props {
   sceneId: string;
   fingerprintId: number;
-  currentPart: number;
+  userPartSet: boolean;
   onPartChange?: () => void;
 }
 
 export const FingerprintPart: FC<Props> = ({
   sceneId,
   fingerprintId,
-  currentPart,
+  userPartSet,
   onPartChange,
 }) => {
   const [updatePart] = useUpdateFingerprintPart();
 
-  const handlePartChange = async (newPart?: number) => {
+  const handlePartChange = async (newPart?: number | null) => {
     let partNum = newPart;
 
-    if (!partNum) {
-      const part = prompt("Part number");
+    if (partNum === undefined) {
+      const part = prompt("Part number for your fingerprint submission");
       if (part === null) return;
       partNum = parseInt(part, 10);
       if (isNaN(partNum) || partNum < 1) {
@@ -37,7 +37,7 @@ export const FingerprintPart: FC<Props> = ({
         variables: {
           scene_id: sceneId,
           fingerprint_id: fingerprintId,
-          part: partNum,
+          part: partNum || null,
         },
       });
 
@@ -53,19 +53,25 @@ export const FingerprintPart: FC<Props> = ({
   };
 
   const handleClick = () => {
-    if (currentPart === -1) {
+    if (!userPartSet) {
       handlePartChange();
     } else if (
-      window.confirm("Are you sure you want to remove the part number?")
+      window.confirm(
+        "Are you sure you want to remove the part number from your fingerprint submission?",
+      )
     ) {
-      handlePartChange(-1);
+      handlePartChange(null);
     }
   };
 
   return (
     <Button
-      className={currentPart === -1 ? "text-success" : "text-danger"}
-      title={currentPart === -1 ? "Set part number" : "Remove part number"}
+      className={userPartSet ? "text-danger" : "text-success"}
+      title={
+        userPartSet
+          ? "Remove part number from your submission"
+          : "Set part number for your submission"
+      }
       onClick={handleClick}
       variant="link"
     >

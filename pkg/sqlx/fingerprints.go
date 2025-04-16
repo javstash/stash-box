@@ -1,19 +1,20 @@
 package sqlx
 
 import (
+	"database/sql"
 	"time"
 
 	"github.com/gofrs/uuid"
 )
 
 type dbSceneFingerprint struct {
-	SceneID       uuid.UUID `db:"scene_id" json:"scene_id"`
-	UserID        uuid.UUID `db:"user_id" json:"user_id"`
-	FingerprintID int       `db:"fingerprint_id" json:"fingerprint_id"`
-	Duration      int       `db:"duration" json:"duration"`
-	CreatedAt     time.Time `db:"created_at" json:"created_at"`
-	Part          int       `db:"part" json:"part"`
-	Vote          int       `db:"vote" json:"vote"`
+	SceneID       uuid.UUID     `db:"scene_id" json:"scene_id"`
+	UserID        uuid.UUID     `db:"user_id" json:"user_id"`
+	FingerprintID int           `db:"fingerprint_id" json:"fingerprint_id"`
+	Duration      int           `db:"duration" json:"duration"`
+	CreatedAt     time.Time     `db:"created_at" json:"created_at"`
+	Part          sql.NullInt64 `db:"part" json:"part"`
+	Vote          int           `db:"vote" json:"vote"`
 }
 
 type dbSceneFingerprints []*dbSceneFingerprint

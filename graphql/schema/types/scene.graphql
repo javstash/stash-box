@@ -37,13 +37,15 @@ type Fingerprint {
   algorithm: FingerprintAlgorithm!
   duration: Int!
   "number of part if the official release consists of multiple files"
-  part: Int!
+  part: Int
   "number of times this fingerprint has been submitted (excluding reports)"
   submissions: Int!
   "number of times this fingerprint has been reported"
   reports: Int!
   created: Time!
   updated: Time!
+  "true if the current user set the part number"
+  user_part_set: Boolean!
   "true if the current user submitted this fingerprint"
   user_submitted: Boolean!
   "true if the current user reported this fingerprint"
@@ -69,7 +71,7 @@ input FingerprintEditInput {
   hash: String!
   algorithm: FingerprintAlgorithm!
   duration: Int!
-  part: Int!
+  part: Int
   created: Time!
   submissions: Int @deprecated(reason: "Unused")
   updated: Time @deprecated(reason: "Unused")

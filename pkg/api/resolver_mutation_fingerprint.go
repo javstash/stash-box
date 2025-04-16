@@ -9,7 +9,7 @@ import (
 	"github.com/stashapp/stash-box/pkg/user"
 )
 
-func (r *mutationResolver) FingerprintPartUpdate(ctx context.Context, sceneID uuid.UUID, fingerprintID int, part int) (bool, error) {
+func (r *mutationResolver) FingerprintPartUpdate(ctx context.Context, sceneID uuid.UUID, fingerprintID int, part *int) (bool, error) {
 	repo := r.getRepoFactory(ctx)
 
 	fingerprints, err := repo.Scene().GetFingerprints(sceneID)
@@ -17,9 +17,11 @@ func (r *mutationResolver) FingerprintPartUpdate(ctx context.Context, sceneID uu
 		return false, err
 	}
 
+	currentUserID := user.GetCurrentUser(ctx).ID
+
 	var fingerprint *models.SceneFingerprint
 	for _, f := range fingerprints {
-		if f.ID == fingerprintID {
+		if f.ID == fingerprintID && f.UserID == currentUserID {
 			fingerprint = f
 			break
 		}
@@ -29,7 +31,6 @@ func (r *mutationResolver) FingerprintPartUpdate(ctx context.Context, sceneID uu
 		return false, nil
 	}
 
-	currentUserID := user.GetCurrentUser(ctx).ID
 	if !user.IsRole(ctx, models.RoleEnumModify) && fingerprint.UserID != currentUserID {
 		return false, errors.New("you are not allowed to update this fingerprint")
 	}
