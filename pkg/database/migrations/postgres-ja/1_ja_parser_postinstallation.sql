@@ -1,4 +1,12 @@
-CREATE EXTENSION pg_cjk_parser;
+DO $$
+BEGIN
+  IF current_setting('is_superuser') = 'on' THEN
+    CREATE EXTENSION IF NOT EXISTS pg_cjk_parser;
+  END IF;
+END$$;
+
+DO
+$$BEGIN
 
 CREATE TEXT SEARCH PARSER public.pg_cjk_parser (
     START = prsd2_cjk_start,
@@ -104,3 +112,8 @@ ALTER TEXT SEARCH CONFIGURATION public.config_2_gram_cjk
 ALTER TEXT SEARCH CONFIGURATION public.config_2_gram_cjk
     ADD MAPPING FOR word
     WITH simple;
+
+EXCEPTION
+   WHEN unique_violation THEN
+      NULL;  -- ignore error
+END;$$;

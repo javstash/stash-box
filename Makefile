@@ -84,8 +84,14 @@ test:
 
 # Runs the integration tests. -count=1 is used to ensure results are not
 # cached, which is important if the environment changes
+## HACK(javstash): patch migrations to make integration tests work
 it:
+	cd pkg/database/migrations && \
+		git checkout postgres/ && \
+		cat postgres-ja/3_*sql >postgres/49_entity_search_lower_idx.up.sql
 	go test -tags=integration -count=1 ./...
+	cd pkg/database/migrations && \
+		git checkout postgres/
 
 # Runs gofmt -w on the project's source code, modifying any files that do not match its style.
 fmt:

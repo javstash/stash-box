@@ -84,7 +84,11 @@ func (qb *sceneQueryBuilder) CreateOrReplaceFingerprints(sceneFingerprints model
 		ON CONFLICT ON CONSTRAINT scene_fingerprints_scene_id_fingerprint_id_user_id_key
 		DO UPDATE SET 
 		duration = EXCLUDED.duration,
-		part = EXCLUDED.part,
+		part = CASE
+			WHEN EXCLUDED.part = -1 THEN NULL
+			WHEN EXCLUDED.part IS NOT NULL THEN EXCLUDED.part
+			ELSE scene_fingerprints.part
+		END,
 		vote = EXCLUDED.vote
 	`
 

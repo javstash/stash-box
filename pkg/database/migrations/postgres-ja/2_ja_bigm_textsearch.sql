@@ -20,17 +20,17 @@ CREATE INDEX scene_search_ts_idx ON scene_search USING gist (
 
 -- From #2, gin_bigm_ops instead of gin_trgm_ops
 
-DROP INDEX name_trgm_idx;
-DROP INDEX name_bigm_idx;
+DROP INDEX IF EXISTS name_trgm_idx;
+DROP INDEX IF EXISTS name_bigm_idx;
 CREATE INDEX name_bigm_idx ON "performers" USING GIN ("name" gin_bigm_ops);
 
 -- From #12, gin_bigm_ops instead of gin_trgm_ops
 
-DROP INDEX disambiguation_trgm_idx;
-DROP INDEX disambiguation_bigm_idx;
+DROP INDEX IF EXISTS disambiguation_trgm_idx;
+DROP INDEX IF EXISTS disambiguation_bigm_idx;
 CREATE INDEX disambiguation_bigm_idx ON "performers" USING GIN ("disambiguation" gin_bigm_ops);
-DROP INDEX performer_alias_trgm_idx;
-DROP INDEX performer_alias_bigm_idx;
+DROP INDEX IF EXISTS performer_alias_trgm_idx;
+DROP INDEX IF EXISTS performer_alias_bigm_idx;
 CREATE INDEX performer_alias_bigm_idx ON "performer_aliases" USING GIN ("alias" gin_bigm_ops);
 
 -- From #35 with the regex function around the scene title removed

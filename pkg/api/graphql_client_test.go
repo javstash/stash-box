@@ -24,9 +24,11 @@ type performerAppearance struct {
 }
 
 type fingerprint struct {
+	ID          int                         `json:"id"`
 	Hash        string                      `json:"hash"`
 	Algorithm   models.FingerprintAlgorithm `json:"algorithm"`
 	Duration    int                         `json:"duration"`
+	Part        *int                        `json:"part"`
 	Submissions int                         `json:"submissions"`
 	Created     string                      `json:"created"`
 	Updated     string                      `json:"updated"`
@@ -290,6 +292,22 @@ func (c *graphqlClient) submitFingerprint(input models.FingerprintSubmission) (b
 	}
 
 	return resp.SubmitFingerprint, nil
+}
+
+func (c *graphqlClient) updateFingerprint(sceneID uuid.UUID, fingerprintID int, part int) (bool, error) {
+	q := `
+	mutation UpdateFingerprint($scene_id: ID!, $fingerprint_id: Int!, $part: Int) {
+		fingerprintPartUpdate(scene_id: $scene_id, fingerprint_id: $fingerprint_id, part: $part)
+	}`
+
+	var resp struct {
+		FingerprintPartUpdate bool
+	}
+	if err := c.Post(q, &resp, client.Var("scene_id", sceneID), client.Var("fingerprint_id", fingerprintID), client.Var("part", part)); err != nil {
+		return false, err
+	}
+
+	return resp.FingerprintPartUpdate, nil
 }
 
 func (c *graphqlClient) createPerformer(input models.PerformerCreateInput) (*performerOutput, error) {

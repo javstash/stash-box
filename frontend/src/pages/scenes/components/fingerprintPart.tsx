@@ -19,7 +19,7 @@ export const FingerprintPart: FC<Props> = ({
 }) => {
   const [updatePart] = useUpdateFingerprintPart();
 
-  const handlePartChange = async (newPart?: number | null) => {
+  const handlePartChange = async (newPart?: number) => {
     let partNum = newPart;
 
     if (partNum === undefined) {
@@ -37,7 +37,7 @@ export const FingerprintPart: FC<Props> = ({
         variables: {
           scene_id: sceneId,
           fingerprint_id: fingerprintId,
-          part: partNum || null,
+          part: partNum,
         },
       });
 
@@ -60,7 +60,7 @@ export const FingerprintPart: FC<Props> = ({
         "Are you sure you want to remove the part number from your fingerprint submission?",
       )
     ) {
-      handlePartChange(null);
+      handlePartChange(-1);
     }
   };
 

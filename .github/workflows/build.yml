@@ -108,6 +108,11 @@ jobs:
       if: ${{ github.event_name != 'pull_request' || steps.cache-ui.outputs.cache-hit != 'true' }}
       run: make ui
 
+    - name: Run tests
+      env:
+        POSTGRES_DB: postgres:postgres@localhost/postgres?sslmode=disable
+      run: make it
+
     - name: Set PR version
       if: ${{ github.event_name == 'pull_request' && github.base_ref != 'refs/heads/master'}}
       run: echo "BUILD_TYPE=PR" >> $GITHUB_ENV

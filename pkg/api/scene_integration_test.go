@@ -8,6 +8,7 @@ import (
 
 	"github.com/gofrs/uuid"
 	"github.com/stashapp/stash-box/pkg/models"
+	"github.com/stashapp/stash-box/pkg/user"
 	"gotest.tools/v3/assert"
 )
 
@@ -798,6 +799,89 @@ func (s *sceneTestRunner) testQueryScenesByTag() {
 	s.verifyInvalidModifier(filter)
 }
 
+func (s *sceneTestRunner) testUpdateFingerprintPart() {
+	createdScene, err := s.createTestScene(nil)
+	assert.NilError(s.t, err)
+
+	currentUserID := user.GetCurrentUser(s.ctx).ID
+	initialFP := s.generateSceneFingerprint([]uuid.UUID{
+		currentUserID,
+	})
+
+	partNumber := 69
+
+	_, err = s.client.submitFingerprint(models.FingerprintSubmission{
+		SceneID: createdScene.UUID(),
+		Fingerprint: &models.FingerprintInput{
+			Hash:      initialFP.Hash,
+			Algorithm: initialFP.Algorithm,
+			Duration:  initialFP.Duration,
+			UserIds:   initialFP.UserIds,
+		},
+	})
+	assert.NilError(s.t, err, "Error submitting initial fingerprint")
+
+	scene, err := s.client.findScene(createdScene.UUID())
+	assert.NilError(s.t, err)
+	// fmt.Println("scene", scene.Fingerprints[0].userID)
+
+	var matchingFP *fingerprint
+	for _, fp := range scene.Fingerprints {
+		if fp.Hash == initialFP.Hash && fp.Algorithm == initialFP.Algorithm {
+			matchingFP = fp
+			break
+		}
+	}
+	assert.Assert(s.t, matchingFP != nil, "Could not find created fingerprint")
+
+	_, err = s.client.updateFingerprint(scene.UUID(), matchingFP.ID, partNumber)
+	assert.NilError(s.t, err, "Error updating fingerprint")
+
+	_, err = s.client.submitFingerprint(models.FingerprintSubmission{
+		SceneID: createdScene.UUID(),
+		Fingerprint: &models.FingerprintInput{
+			Hash:      initialFP.Hash,
+			Algorithm: initialFP.Algorithm,
+			Duration:  initialFP.Duration,
+			UserIds:   initialFP.UserIds,
+		},
+	})
+	assert.NilError(s.t, err, "Error re-submitting fingerprint")
+
+	scene, err = s.client.findScene(createdScene.UUID())
+	assert.NilError(s.t, err)
+
+	matchingFP = nil
+	for _, fp := range scene.Fingerprints {
+		if fp.Hash == initialFP.Hash && fp.Algorithm == initialFP.Algorithm && fp.Part != nil {
+			matchingFP = fp
+			break
+		}
+	}
+	assert.Assert(s.t, matchingFP != nil, "Could not find matching fingerprint")
+
+	// Verify part information was preserved
+	assert.Equal(s.t, *matchingFP.Part, partNumber, "Incorrect fingerprint part number")
+
+	_, err = s.client.updateFingerprint(scene.UUID(), matchingFP.ID, -1)
+	assert.NilError(s.t, err, "Error clearing fingerprint part number")
+
+	scene, err = s.client.findScene(createdScene.UUID())
+	assert.NilError(s.t, err)
+
+	matchingFP = nil
+	for _, fp := range scene.Fingerprints {
+		if fp.Hash == initialFP.Hash && fp.Algorithm == initialFP.Algorithm {
+			matchingFP = fp
+			break
+		}
+	}
+	assert.Assert(s.t, matchingFP != nil, "Could not find matching fingerprint")
+
+	// Verify that part information was cleared
+	assert.Assert(s.t, matchingFP.Part == nil, "Fingerprint part number was not cleared")
+}
+
 func TestCreateScene(t *testing.T) {
 	pt := createSceneTestRunner(t)
 	pt.testCreateScene()
@@ -864,4 +948,9 @@ func TestSubmitFingerprintModify(t *testing.T) {
 func TestSubmitFingerprintUnmatchModify(t *testing.T) {
 	pt := createSceneTestRunner(t)
 	pt.testSubmitFingerprintUnmatchModify()
+}
+
+func TestUpdateFingerprintPart(t *testing.T) {
+	pt := createSceneTestRunner(t)
+	pt.testUpdateFingerprintPart()
 }
