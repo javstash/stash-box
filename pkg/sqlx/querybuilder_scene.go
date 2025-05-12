@@ -517,8 +517,11 @@ func (qb *sceneQueryBuilder) buildQuery(filter models.SceneQueryInput, userID uu
 		query.Body += `
 			JOIN (
 				SELECT scene_id, COUNT(*) AS count
-				FROM scene_fingerprints
+				FROM
+				(
+				SELECT DISTINCT scene_id, user_id from scene_fingerprints
 				WHERE created_at >= (now()::DATE - 7)
+				)
 				GROUP BY scene_id
 				` + limit + `
 			) T ON scenes.id = T.scene_id
