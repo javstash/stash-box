@@ -520,7 +520,7 @@ func (qb *sceneQueryBuilder) buildQuery(filter models.SceneQueryInput, userID uu
 				FROM
 				(
 				SELECT DISTINCT scene_id, user_id from scene_fingerprints
-				WHERE created_at >= (now()::DATE - 7)
+				WHERE created_at >= (now()::DATE - 14)
 				)
 				GROUP BY scene_id
 				` + limit + `
