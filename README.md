@@ -3,7 +3,6 @@
 [![Build](https://github.com/stashapp/stash-box/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/stashapp/stash-box/actions/workflows/build.yml)
 [![Open Collective backers](https://img.shields.io/opencollective/backers/stashapp?logo=opencollective)](https://opencollective.com/stashapp)
 [![Go Report Card](https://goreportcard.com/badge/github.com/stashapp/stash-box)](https://goreportcard.com/report/github.com/stashapp/stash-box)
-[![Matrix](https://img.shields.io/matrix/stashapp:unredacted.org?logo=matrix&server_fqdn=matrix.org)](https://matrix.to/#/#stashapp:unredacted.org)
 [![Discord](https://img.shields.io/discord/559159668438728723.svg?logo=discord)](https://discord.gg/2TsNFKt)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/stashapp/stash-box?logo=github)](https://github.com/stashapp/stash-box/releases/latest)
 [![GitHub issues by-label](https://img.shields.io/github/issues-raw/stashapp/stash-box/bounty)](https://github.com/stashapp/stash-box/labels/bounty)
@@ -92,6 +91,7 @@ There are two ways to authenticate a user in Stash-box: a session or an API key.
 | `image_max_size` | (none) | Max size of image, if no size is specified. Omit to return full size. |
 | `image_resizing.enabled` | false | Whether to resize images shown in the frontend. |
 | `image_resizing.cache_path` | (none) | Folder in which resized images will be saved for later requests. Recommended when resizing is enabled. |
+| `image_resizing.min_size` | (none) | Only resize images above a certain size |
 | `userLogFile` | (none) | Path to the user log file, which logs user operations. If not set, then these will be output to stderr. |
 | `s3.endpoint` | (none) | Hostname to s3 endpoint used for image storage. |
 | `s3.bucket` | (none) | Name of S3 bucket used to store images. |
@@ -129,6 +129,10 @@ If you want to enable distance matching for pHashes in stash-box, you'll need to
 The recommended way to do this is to use the [docker image](docker/production/postgres/Dockerfile). Still, you can also install it manually by following the build instructions in the pg-spgist_hamming repository.
 
 Suppose you install the extension after you've run the migrations. In that case, you'll need to run migration #14 manually to install the extension and add the index. If you don't want to do this, you can wipe the database, and the migrations will run the next time you start stash-box.
+
+# Join Our Community
+
+We are excited to announce that we have a new home for support, feature requests, and discussions related to Stash and its associated projects. Join our community on the [Discourse forum](https://discourse.stashapp.cc) to connect with other users, share your ideas, and get help from fellow enthusiasts.
 
 # Development
 
@@ -173,8 +177,7 @@ You can access the GraphQL playground at `host:port/playground`, and the GraphQL
 # FAQ
 
 > I have a question that needs to be answered here.
-
-* Join the [Matrix space](https://matrix.to/#/#stashapp:unredacted.org)
+* Join the [Discourse forum](https://discourse.stashapp.cc)
 * Join the [Discord server](https://discord.gg/2TsNFKt), where the community can offer support.
 * Start a [discussion on GitHub](https://github.com/stashapp/stash-box/discussions)
 
