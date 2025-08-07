@@ -671,7 +671,7 @@ func (qb *sceneQueryBuilder) GetAllFingerprints(currentUserID uuid.UUID, ids []u
 
 	query += `
 		GROUP BY SFP.scene_id, FP.id, FP.algorithm, FP.hash
-		ORDER BY net_submissions DESC`
+		ORDER BY part ASC, net_submissions DESC`
 
 	arg := map[string]interface{}{
 		"userid":   currentUserID,
