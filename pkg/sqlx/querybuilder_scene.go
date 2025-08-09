@@ -505,7 +505,6 @@ func (qb *sceneQueryBuilder) buildQuery(filter models.SceneQueryInput, userID uu
 	}
 
 	if filter.Sort == models.SceneSortEnumTrending {
-		limit := ""
 		query.Pagination = getPagination(filter.Page, filter.PerPage)
 		
 		query.Body += `
@@ -517,8 +516,7 @@ func (qb *sceneQueryBuilder) buildQuery(filter models.SceneQueryInput, userID uu
 				WHERE created_at >= (now()::DATE - 14)
 				)
 				GROUP BY scene_id
-				` + limit + `
-			) T ON scenes.id = T.scene_id
+				) T ON scenes.id = T.scene_id
 		`
 		query.Sort = " ORDER BY T.count DESC, T.scene_id DESC "
 	} else {
