@@ -505,7 +505,14 @@ func (qb *sceneQueryBuilder) buildQuery(filter models.SceneQueryInput, userID uu
 	}
 
 	if filter.Sort == models.SceneSortEnumTrending {
-		query.Pagination = getPagination(filter.Page, filter.PerPage)
+		limit := ""
+		if len(query.whereClauses) == 0 && len(query.args) == 0 && !isCount {
+			// If no other filters are applied we can optimize query
+			// by sorting and limiting fingerprint count directly
+			limit = "ORDER BY count DESC " + getPagination(filter.Page, filter.PerPage)
+		} else {
+			query.Pagination = getPagination(filter.Page, filter.PerPage)
+		}
 		
 		query.Body += `
 			JOIN (
@@ -516,9 +523,10 @@ func (qb *sceneQueryBuilder) buildQuery(filter models.SceneQueryInput, userID uu
 				WHERE created_at >= (now()::DATE - 14)
 				)
 				GROUP BY scene_id
-				) T ON scenes.id = T.scene_id
+				` + limit + `
+			) TRENDING ON scenes.id = TRENDING.scene_id
 		`
-		query.Sort = " ORDER BY T.count DESC, T.scene_id DESC "
+		query.Sort = " ORDER BY TRENDING.count DESC, TRENDING.scene_id DESC "
 	} else {
 		query.Sort = qb.getSceneSort(filter)
 		query.Pagination = getPagination(filter.Page, filter.PerPage)
