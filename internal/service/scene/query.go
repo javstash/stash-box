@@ -225,9 +225,8 @@ func (s *Scene) buildSceneQuery(psql sq.StatementBuilderType, input models.Scene
 				FROM
 				(
 				SELECT DISTINCT scene_id, user_id from scene_fingerprints
-				FROM scene_fingerprints
 				WHERE created_at >= (now()::DATE - 14)
-				}
+				)
 				GROUP BY scene_id
 				ORDER BY count DESC
 				LIMIT %d OFFSET %d
@@ -241,9 +240,8 @@ func (s *Scene) buildSceneQuery(psql sq.StatementBuilderType, input models.Scene
 				FROM
 				(
 				SELECT DISTINCT scene_id, user_id from scene_fingerprints
-				FROM scene_fingerprints
 				WHERE created_at >= (now()::DATE - 14)
-				}
+				)
 				GROUP BY scene_id
 			) TRENDING ON scenes.id = TRENDING.scene_id`)
 
