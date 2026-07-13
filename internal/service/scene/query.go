@@ -222,8 +222,12 @@ func (s *Scene) buildSceneQuery(psql sq.StatementBuilderType, input models.Scene
 
 			query = query.Join(fmt.Sprintf(`(
 				SELECT scene_id, COUNT(*) AS count
+				FROM
+				(
+				SELECT DISTINCT scene_id, user_id from scene_fingerprints
 				FROM scene_fingerprints
-				WHERE created_at >= (now()::DATE - 7)
+				WHERE created_at >= (now()::DATE - 14)
+				}
 				GROUP BY scene_id
 				ORDER BY count DESC
 				LIMIT %d OFFSET %d
@@ -234,8 +238,12 @@ func (s *Scene) buildSceneQuery(psql sq.StatementBuilderType, input models.Scene
 			// Standard trending query without optimization
 			query = query.Join(`(
 				SELECT scene_id, COUNT(*) AS count
+				FROM
+				(
+				SELECT DISTINCT scene_id, user_id from scene_fingerprints
 				FROM scene_fingerprints
-				WHERE created_at >= (now()::DATE - 7)
+				WHERE created_at >= (now()::DATE - 14)
+				}
 				GROUP BY scene_id
 			) TRENDING ON scenes.id = TRENDING.scene_id`)
 
