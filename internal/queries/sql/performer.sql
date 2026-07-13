@@ -76,18 +76,18 @@ LIMIT sqlc.arg('limit');
 -- name: SearchPerformers :many
 SELECT P.* FROM (
     SELECT id, SUM(similarity) AS score FROM (
-        SELECT P.id, similarity(P.name, sqlc.narg('term')) AS similarity
+        SELECT P.id, bigm_similarity(P.name, sqlc.narg('term')) AS similarity
         FROM performers P
-        WHERE P.deleted = FALSE AND P.name % sqlc.narg('term') AND similarity(P.name, sqlc.narg('term')) > 0.5
+        WHERE P.deleted = FALSE AND P.name % sqlc.narg('term') AND bigm_similarity(P.name, sqlc.narg('term')) > 0.5
     UNION
-        SELECT P.id, (similarity(COALESCE(PA.alias, ''), sqlc.narg('term')) * 0.5) AS similarity
+        SELECT P.id, (bigm_similarity(COALESCE(PA.alias, ''), sqlc.narg('term')) * 0.5) AS similarity
         FROM performers P
         LEFT JOIN performer_aliases PA on PA.performer_id = P.id
-        WHERE P.deleted = FALSE AND PA.alias % sqlc.narg('term') AND similarity(COALESCE(PA.alias, ''), sqlc.narg('term')) > 0.6
+        WHERE P.deleted = FALSE AND PA.alias % sqlc.narg('term') AND bigm_similarity(COALESCE(PA.alias, ''), sqlc.narg('term')) > 0.6
     UNION
-        SELECT P.id, (similarity(COALESCE(P.disambiguation, ''), sqlc.narg('term')) * 0.3) AS similarity
+        SELECT P.id, (bigm_similarity(COALESCE(P.disambiguation, ''), sqlc.narg('term')) * 0.3) AS similarity
         FROM performers P
-        WHERE P.deleted = FALSE AND P.disambiguation % sqlc.narg('term') AND similarity(COALESCE(P.disambiguation, ''), sqlc.narg('term')) > 0.7
+        WHERE P.deleted = FALSE AND P.disambiguation % sqlc.narg('term') AND bigm_similarity(COALESCE(P.disambiguation, ''), sqlc.narg('term')) > 0.7
     ) A
     GROUP BY id
     ORDER BY score DESC

@@ -30,14 +30,14 @@ SELECT * FROM studios WHERE UPPER(name) = UPPER($1) AND deleted = false;
 -- name: SearchStudios :many
 SELECT S.* FROM (
     SELECT id, SUM(similarity) AS score FROM (
-        SELECT S.id, similarity(S.name, sqlc.narg('term')) AS similarity
+        SELECT S.id, bigm_similarity(S.name, sqlc.narg('term')) AS similarity
         FROM studios S
-        WHERE S.deleted = FALSE AND S.name % sqlc.narg('term') AND similarity(S.name, sqlc.narg('term')) > 0.5
+        WHERE S.deleted = FALSE AND S.name % sqlc.narg('term') AND bigm_similarity(S.name, sqlc.narg('term')) > 0.5
     UNION
-        SELECT S.id, (similarity(COALESCE(SA.alias, ''), sqlc.narg('term')) * 0.5) AS similarity
+        SELECT S.id, (bigm_similarity(COALESCE(SA.alias, ''), sqlc.narg('term')) * 0.5) AS similarity
         FROM studios S
         LEFT JOIN studio_aliases SA on SA.studio_id = S.id
-        WHERE S.deleted = FALSE AND SA.alias % sqlc.narg('term') AND similarity(COALESCE(SA.alias, ''), sqlc.narg('term')) > 0.5
+        WHERE S.deleted = FALSE AND SA.alias % sqlc.narg('term') AND bigm_similarity(COALESCE(SA.alias, ''), sqlc.narg('term')) > 0.5
     ) A
     GROUP BY id
     ORDER BY score DESC

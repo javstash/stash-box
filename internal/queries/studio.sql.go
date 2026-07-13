@@ -575,14 +575,14 @@ func (q *Queries) ReassignStudioFavorites(ctx context.Context, arg ReassignStudi
 const searchStudios = `-- name: SearchStudios :many
 SELECT s.id, s.name, s.parent_studio_id, s.created_at, s.updated_at, s.deleted FROM (
     SELECT id, SUM(similarity) AS score FROM (
-        SELECT S.id, similarity(S.name, $1) AS similarity
+        SELECT S.id, bigm_similarity(S.name, $1) AS similarity
         FROM studios S
-        WHERE S.deleted = FALSE AND S.name % $1 AND similarity(S.name, $1) > 0.5
+        WHERE S.deleted = FALSE AND S.name % $1 AND bigm_similarity(S.name, $1) > 0.5
     UNION
-        SELECT S.id, (similarity(COALESCE(SA.alias, ''), $1) * 0.5) AS similarity
+        SELECT S.id, (bigm_similarity(COALESCE(SA.alias, ''), $1) * 0.5) AS similarity
         FROM studios S
         LEFT JOIN studio_aliases SA on SA.studio_id = S.id
-        WHERE S.deleted = FALSE AND SA.alias % $1 AND similarity(COALESCE(SA.alias, ''), $1) > 0.5
+        WHERE S.deleted = FALSE AND SA.alias % $1 AND bigm_similarity(COALESCE(SA.alias, ''), $1) > 0.5
     ) A
     GROUP BY id
     ORDER BY score DESC

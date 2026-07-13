@@ -60,12 +60,12 @@ LIMIT sqlc.arg('limit');
 SELECT S.* FROM scenes S
 LEFT JOIN scene_search SS ON SS.scene_id = S.id
 WHERE (
-    to_tsvector('english', COALESCE(scene_date, '')) ||
-    to_tsvector('english', studio_name) ||
-    to_tsvector('english', COALESCE(performer_names, '')) ||
-    to_tsvector('english', scene_title) ||
-    to_tsvector('english', COALESCE(scene_code, ''))
-) @@ websearch_to_tsquery('english', sqlc.narg('term'))
+    to_tsvector('config_2_gram_cjk', COALESCE(scene_date, '')) ||
+    to_tsvector('config_2_gram_cjk', studio_name) ||
+    to_tsvector('config_2_gram_cjk', COALESCE(performer_names, '')) ||
+    to_tsvector('config_2_gram_cjk', scene_title) ||
+    to_tsvector('config_2_gram_cjk', COALESCE(scene_code, ''))
+) @@ websearch_to_tsquery('config_2_gram_cjk', sqlc.narg('term'))
 AND S.deleted = FALSE
 LIMIT sqlc.arg('limit');
 
