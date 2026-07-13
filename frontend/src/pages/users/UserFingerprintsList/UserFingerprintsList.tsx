@@ -32,6 +32,7 @@ interface Props {
 const sortOptions = [
   { value: SceneSortEnum.DATE, label: "Release Date" },
   { value: SceneSortEnum.TITLE, label: "Title" },
+  { value: SceneSortEnum.CODE, label: "Code" },
   { value: SceneSortEnum.TRENDING, label: "Trending" },
   { value: SceneSortEnum.CREATED_AT, label: "Created At" },
   { value: SceneSortEnum.UPDATED_AT, label: "Updated At" },
@@ -162,6 +163,7 @@ export const UserFingerprintsList: FC<Props> = ({
               <tr>
                 <th style={{ width: "50px" }}></th>
                 <th>Title</th>
+                <th>Code</th>
                 <th>Studio</th>
                 <th>Duration</th>
                 <th style={{ width: "120px" }}>Release Date</th>
