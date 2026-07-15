@@ -264,6 +264,52 @@ func (q *Queries) FindSceneAppearancesByIds(ctx context.Context, sceneIds []uuid
 	return items, nil
 }
 
+const findSceneByCode = `-- name: FindSceneByCode :many
+SELECT s.id, s.title, s.details, s.studio_id, s.created_at, s.updated_at, s.duration, s.director, s.deleted, s.code, s.date, s.production_date
+FROM scenes S
+WHERE LOWER(S.code) = LOWER($1)
+AND S.deleted = FALSE
+LIMIT $2
+`
+
+type FindSceneByCodeParams struct {
+	Code  *string `db:"code" json:"code"`
+	Limit int32   `db:"limit" json:"limit"`
+}
+
+func (q *Queries) FindSceneByCode(ctx context.Context, arg FindSceneByCodeParams) ([]Scene, error) {
+	rows, err := q.db.Query(ctx, findSceneByCode, arg.Code, arg.Limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Scene{}
+	for rows.Next() {
+		var i Scene
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Details,
+			&i.StudioID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Duration,
+			&i.Director,
+			&i.Deleted,
+			&i.Code,
+			&i.Date,
+			&i.ProductionDate,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const findSceneByURL = `-- name: FindSceneByURL :many
 SELECT s.id, s.title, s.details, s.studio_id, s.created_at, s.updated_at, s.duration, s.director, s.deleted, s.code, s.date, s.production_date
 FROM scenes S

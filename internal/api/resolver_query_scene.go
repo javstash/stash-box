@@ -118,5 +118,15 @@ func (r *queryResolver) searchScenes(ctx context.Context, term string, limit *in
 		}, err
 	}
 
+	if strings.Contains(trimmedQuery, "-") {
+		scenes, err := r.services.Scene().FindByCode(ctx, trimmedQuery, searchLimit)
+		return &models.SceneQuery{
+			SearchResults: &models.SceneSearchResults{
+				Scenes: scenes,
+				Count:  len(scenes),
+			},
+		}, err
+	}
+
 	return r.services.Scene().SearchScenesWithCount(ctx, trimmedQuery, searchLimit, searchOffset)
 }

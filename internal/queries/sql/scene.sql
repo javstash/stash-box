@@ -56,6 +56,13 @@ WHERE LOWER(SU.url) = LOWER(sqlc.narg('url'))
 AND S.deleted = FALSE
 LIMIT sqlc.arg('limit');
 
+-- name: FindSceneByCode :many
+SELECT S.*
+FROM scenes S
+WHERE LOWER(S.code) = LOWER(sqlc.narg('code'))
+AND S.deleted = FALSE
+LIMIT sqlc.arg('limit');
+
 -- name: SearchScenes :many
 -- Token-at-a-time scoring. The search term is tokenized by the caller and
 -- passed as an array. Each token is scored independently against every field
