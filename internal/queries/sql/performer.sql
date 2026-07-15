@@ -73,6 +73,15 @@ JOIN performer_urls PU ON PU.performer_id = P.id
 WHERE LOWER(PU.url) = LOWER(sqlc.narg('url'))
 LIMIT sqlc.arg('limit');
 
+-- name: ExactPerformerSearch :many
+SELECT P.* FROM performers P WHERE
+"id" In (
+SELECT DISTINCT P."id" from performers P
+JOIN performer_aliases PA ON P.id = PA.performer_id
+WHERE P.name = sqlc.narg('term') OR PA.alias = sqlc.narg('term')
+)
+LIMIT sqlc.arg('limit');
+
 -- Keep the WHERE clause in sync across SearchPerformers, CountPerformerSearchMatches,
 -- and GetPerformerSearchFacets so paging, counts, and facets stay consistent.
 

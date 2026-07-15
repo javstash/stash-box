@@ -146,6 +146,7 @@ type Querier interface {
 	DeleteUserToken(ctx context.Context, id uuid.UUID) error
 	DestroyExpiredInvites(ctx context.Context) error
 	DestroyExpiredNotifications(ctx context.Context) error
+	ExactPerformerSearch(ctx context.Context, arg ExactPerformerSearchParams) ([]Performer, error)
 	// The pg-spgist_hamming custom-scan hook turns this UNNEST + <@ into a single
 	// batch BK-tree traversal when ≤64 hashes are supplied; caller must chunk.
 	// The scene_id join is intentionally NOT here: the planner overestimates the

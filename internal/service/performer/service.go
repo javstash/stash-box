@@ -490,6 +490,21 @@ func (s *Performer) SearchPerformer(ctx context.Context, term string, limit *int
 		searchOffset = (*page - 1) * searchLimit
 	}
 
+	if strings.HasSuffix(trimmedQuery, "\"") {
+		trimmedQuery2 := strings.TrimRight(trimmedQuery, "\"")
+		rows, err := s.queries.ExactPerformerSearch(ctx, queries.ExactPerformerSearchParams{
+			Term:  &trimmedQuery2,
+			Limit: int32(searchLimit),
+		})
+		performers := converter.PerformersToModels(rows)
+		return &models.PerformerQuery{
+			SearchResults: &models.PerformerSearchResults{
+				Performers: performers,
+				Count:      len(performers),
+			},
+		}, err
+	}
+
 	if strings.HasPrefix(trimmedQuery, "https://") || strings.HasPrefix(trimmedQuery, "http://") {
 		rows, err := s.queries.FindPerformersByURL(ctx, queries.FindPerformersByURLParams{
 			Url:   &trimmedQuery,

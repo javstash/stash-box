@@ -303,6 +303,63 @@ func (q *Queries) DeletePerformerURLs(ctx context.Context, performerID uuid.UUID
 	return err
 }
 
+const exactPerformerSearch = `-- name: ExactPerformerSearch :many
+SELECT p.id, p.name, p.disambiguation, p.gender, p.ethnicity, p.country, p.eye_color, p.hair_color, p.height, p.cup_size, p.band_size, p.hip_size, p.waist_size, p.breast_type, p.career_start_year, p.career_end_year, p.created_at, p.updated_at, p.deleted, p.birthdate, p.deathdate FROM performers P WHERE
+"id" In (
+SELECT DISTINCT P."id" from performers P
+JOIN performer_aliases PA ON P.id = PA.performer_id
+WHERE P.name = $1 OR PA.alias = $1
+)
+LIMIT $2
+`
+
+type ExactPerformerSearchParams struct {
+	Term  *string `db:"term" json:"term"`
+	Limit int32   `db:"limit" json:"limit"`
+}
+
+func (q *Queries) ExactPerformerSearch(ctx context.Context, arg ExactPerformerSearchParams) ([]Performer, error) {
+	rows, err := q.db.Query(ctx, exactPerformerSearch, arg.Term, arg.Limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Performer{}
+	for rows.Next() {
+		var i Performer
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Disambiguation,
+			&i.Gender,
+			&i.Ethnicity,
+			&i.Country,
+			&i.EyeColor,
+			&i.HairColor,
+			&i.Height,
+			&i.CupSize,
+			&i.BandSize,
+			&i.HipSize,
+			&i.WaistSize,
+			&i.BreastType,
+			&i.CareerStartYear,
+			&i.CareerEndYear,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Deleted,
+			&i.Birthdate,
+			&i.Deathdate,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const findExistingPerformers = `-- name: FindExistingPerformers :many
 SELECT id, name, disambiguation, gender, ethnicity, country, eye_color, hair_color, height, cup_size, band_size, hip_size, waist_size, breast_type, career_start_year, career_end_year, created_at, updated_at, deleted, birthdate, deathdate FROM performers
 WHERE (
