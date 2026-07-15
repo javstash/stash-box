@@ -526,7 +526,7 @@ const PerformerForm: FC<PerformerProps> = ({
                 <Form.Control.Feedback type="invalid">
                   {errors?.bandSize?.message}
                 </Form.Control.Feedback>
-                <Form.Text>US Bra size number</Form.Text>
+                <Form.Text>Breast circumference in centimeters</Form.Text>
               </Form.Group>
 
               <Form.Group controlId="cupSize" className="col-2 mb-3">
@@ -538,7 +538,7 @@ const PerformerForm: FC<PerformerProps> = ({
                 <Form.Control.Feedback type="invalid">
                   {errors?.cupSize?.message}
                 </Form.Control.Feedback>
-                <Form.Text>US Bra size letter(s)</Form.Text>
+                <Form.Text>Japanese bra size</Form.Text>
               </Form.Group>
 
               <Form.Group controlId="waistSize" className="col-4 mb-3">
@@ -552,7 +552,7 @@ const PerformerForm: FC<PerformerProps> = ({
                 <Form.Control.Feedback type="invalid">
                   {errors?.waistSize?.message}
                 </Form.Control.Feedback>
-                <Form.Text>Waist circumference in inches</Form.Text>
+                <Form.Text>Waist circumference in centimeters</Form.Text>
               </Form.Group>
 
               <Form.Group controlId="hipSize" className="col-4 mb-3">
@@ -566,7 +566,7 @@ const PerformerForm: FC<PerformerProps> = ({
                 <Form.Control.Feedback type="invalid">
                   {errors?.hipSize?.message}
                 </Form.Control.Feedback>
-                <Form.Text>Hip circumference in inches</Form.Text>
+                <Form.Text>Hip circumference in centimeters</Form.Text>
               </Form.Group>
             </Row>
           )}

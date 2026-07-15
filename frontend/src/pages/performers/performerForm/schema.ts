@@ -58,12 +58,12 @@ export const PerformerSchema = yup.object({
     .transform(zeroCheck)
     .nullable()
     .min(1950, "Invalid year")
-    .max(new Date().getFullYear(), "Invalid year"),
+    .max(new Date().getFullYear() + 1, "Invalid year"),
   career_end_year: yup
     .number()
     .transform(zeroCheck)
     .min(1950, "Invalid year")
-    .max(new Date().getFullYear(), "Invalid year")
+    .max(new Date().getFullYear() + 1, "Invalid year")
     .nullable(),
   height: yup
     .number()
@@ -72,12 +72,7 @@ export const PerformerSchema = yup.object({
     .min(100, "Invalid height, Height must be in centimeters.")
     .max(230, "Invalid height")
     .nullable(),
-  bandSize: yup
-    .number()
-    .transform(zeroCheck)
-    .min(28, "Size must be 28-56")
-    .max(56, "Size must be 28-56")
-    .nullable(),
+  bandSize: yup.number().transform(zeroCheck).nullable(),
   cupSize: yup
     .string()
     .transform(nullCheck)
@@ -86,12 +81,7 @@ export const PerformerSchema = yup.object({
       message: "Invalid cup size",
     })
     .nullable(),
-  waistSize: yup
-    .number()
-    .transform(zeroCheck)
-    .min(15, "Invalid waist size")
-    .max(50, "Invalid waist size")
-    .nullable(),
+  waistSize: yup.number().transform(zeroCheck).nullable(),
   hipSize: yup.number().transform(zeroCheck).nullable(),
   breastType: yup
     .string()
