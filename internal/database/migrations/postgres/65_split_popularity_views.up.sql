@@ -21,7 +21,7 @@ CREATE INDEX scene_popularity_all_time_count_idx
 CREATE MATERIALIZED VIEW scene_popularity_trending AS
 SELECT scene_id, COUNT(DISTINCT user_id)::INT AS trending_count
 FROM scene_fingerprints
-WHERE created_at >= (now()::DATE - 7)
+WHERE created_at >= (now()::DATE - 14)
 GROUP BY scene_id;
 
 CREATE UNIQUE INDEX scene_popularity_trending_scene_id_idx
