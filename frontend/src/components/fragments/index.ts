@@ -6,6 +6,7 @@ export { default as HighlightedLinks } from "./HighlightedLinks";
 export { default as Icon } from "./Icon";
 export { default as LoadingIndicator } from "./LoadingIndicator";
 export { default as PerformerName } from "./PerformerName";
+export { default as SceneCardPerformerName } from "./SceneCardPerformerName";
 export { SearchHint } from "./SearchHint";
 export { SearchInput } from "./SearchInput";
 export { default as SiteLink } from "./SiteLink";

@@ -40,15 +40,22 @@ query ScenePairings(
       {
         id
         title
-        date
+        code
         duration
         release_date
+        production_date
         studio {
           id
           name
         }
         images {
           ...ImageFragment
+        }
+        performers {
+          as
+          performer {
+            ...ScenePerformerFragment
+          }
         }
       }
     }
