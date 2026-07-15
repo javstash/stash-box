@@ -2027,6 +2027,7 @@ export type SceneQueryInput = {
 };
 
 export enum SceneSortEnum {
+  CODE = 'CODE',
   CREATED_AT = 'CREATED_AT',
   DATE = 'DATE',
   DURATION = 'DURATION',

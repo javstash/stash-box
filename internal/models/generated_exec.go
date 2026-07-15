@@ -6144,6 +6144,7 @@ type QueryScenesResultType {
 
 enum SceneSortEnum {
   TITLE
+  CODE
   DATE
   DURATION
   TRENDING
