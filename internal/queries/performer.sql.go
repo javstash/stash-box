@@ -308,7 +308,7 @@ SELECT p.id, p.name, p.disambiguation, p.gender, p.ethnicity, p.country, p.eye_c
 "id" In (
 SELECT DISTINCT P."id" from performers P
 JOIN performer_aliases PA ON P.id = PA.performer_id
-WHERE P.name = $1 OR PA.alias = $1
+WHERE LOWER(P.name) = LOWER($1) OR LOWER(PA.alias) = LOWER($1)
 )
 LIMIT $2
 `
