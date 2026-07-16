@@ -77,7 +77,7 @@ LIMIT sqlc.arg('limit');
 SELECT P.* FROM performers P WHERE
 "id" In (
 SELECT DISTINCT P."id" from performers P
-JOIN performer_aliases PA ON P.id = PA.performer_id
+LEFT JOIN performer_aliases PA ON P.id = PA.performer_id
 WHERE LOWER(P.name) = LOWER(sqlc.narg('term')) OR LOWER(PA.alias) = LOWER(sqlc.narg('term'))
 )
 LIMIT sqlc.arg('limit');
