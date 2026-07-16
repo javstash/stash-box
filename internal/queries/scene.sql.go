@@ -642,7 +642,7 @@ WHERE scene_id @@@ paradedb.boolean(should =>
         FROM unnest($1::TEXT[]) AS tok
     ) || ARRAY(
         SELECT paradedb.disjunction_max(disjuncts => ARRAY[
-            paradedb.boost(factor => 2.0, query => paradedb.match(field => 'performer_names', value => tok)),
+            paradedb.match(field => 'performer_names', value => tok),
             paradedb.match(field => 'scene_title', value => tok),
             paradedb.match(field => 'scene_code', value => tok),
             paradedb.match(field => 'scene_date', value => tok),
