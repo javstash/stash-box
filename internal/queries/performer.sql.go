@@ -305,11 +305,13 @@ func (q *Queries) DeletePerformerURLs(ctx context.Context, performerID uuid.UUID
 const exactPerformerSearch = `-- name: ExactPerformerSearch :many
 SELECT p.id, p.name, p.disambiguation, p.gender, p.ethnicity, p.country, p.eye_color, p.hair_color, p.height, p.cup_size, p.band_size, p.hip_size, p.waist_size, p.breast_type, p.career_start_year, p.career_end_year, p.created_at, p.updated_at, p.deleted, p.birthdate, p.deathdate FROM performers P WHERE
 "id" In (
-SELECT DISTINCT P."id" from performers P
-LEFT JOIN performer_aliases PA ON P.id = PA.performer_id
-WHERE (LOWER(P.name) = LOWER($1) OR LOWER(PA.alias) = LOWER($1))
-AND P.deleted = false
+SELECT PP."id" from performers PP
+WHERE LOWER(PP.name) = LOWER($1)
+UNION
+SELECT PA."performer_id" as "id" from performer_aliases PA
+WHERE LOWER(PA.alias) = LOWER($1)
 )
+AND P.deleted = false
 LIMIT $2
 `
 

@@ -76,11 +76,13 @@ LIMIT sqlc.arg('limit');
 -- name: ExactPerformerSearch :many
 SELECT P.* FROM performers P WHERE
 "id" In (
-SELECT DISTINCT P."id" from performers P
-LEFT JOIN performer_aliases PA ON P.id = PA.performer_id
-WHERE (LOWER(P.name) = LOWER(sqlc.narg('term')) OR LOWER(PA.alias) = LOWER(sqlc.narg('term')))
-AND P.deleted = false
+SELECT PP."id" from performers PP
+WHERE LOWER(PP.name) = LOWER(sqlc.narg('term'))
+UNION
+SELECT PA."performer_id" as "id" from performer_aliases PA
+WHERE LOWER(PA.alias) = LOWER(sqlc.narg('term'))
 )
+AND P.deleted = false
 LIMIT sqlc.arg('limit');
 
 -- Keep the WHERE clause in sync across SearchPerformers, CountPerformerSearchMatches,
