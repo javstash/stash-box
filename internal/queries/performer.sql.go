@@ -40,8 +40,7 @@ WHERE performer_id @@@ paradedb.disjunction_max(disjuncts => ARRAY[
                 paradedb.boost(factor => 2.0, query => (jsonb_build_object(
                     'tokenized_phrase', jsonb_build_object('field', 'name', 'phrase', $1::TEXT)
                 ))::paradedb.searchqueryinput)
-            ]),
-            paradedb.match(field => 'disambiguation', value => $1::TEXT)
+            ])
         ]
     ),
     (jsonb_build_object(
@@ -977,8 +976,7 @@ WHERE performer_id @@@ paradedb.disjunction_max(disjuncts => ARRAY[
                 paradedb.boost(factor => 2.0, query => (jsonb_build_object(
                     'tokenized_phrase', jsonb_build_object('field', 'name', 'phrase', $1::TEXT)
                 ))::paradedb.searchqueryinput)
-            ]),
-            paradedb.match(field => 'disambiguation', value => $1::TEXT)
+            ])
         ]
     ),
     (jsonb_build_object(
@@ -1108,8 +1106,7 @@ WHERE performer_id @@@ paradedb.disjunction_max(disjuncts => ARRAY[
                 paradedb.boost(factor => 2.0, query => (jsonb_build_object(
                     'tokenized_phrase', jsonb_build_object('field', 'name', 'phrase', $1::TEXT)
                 ))::paradedb.searchqueryinput)
-            ]),
-            paradedb.match(field => 'disambiguation', value => $1::TEXT)
+            ])
         ]
     ),
     (jsonb_build_object(
