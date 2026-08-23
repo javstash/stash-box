@@ -16,6 +16,7 @@ type Querier interface {
 	CountNotificationsByUser(ctx context.Context, arg CountNotificationsByUserParams) (int64, error)
 	CountPerformerSearchMatches(ctx context.Context, arg CountPerformerSearchMatchesParams) (interface{}, error)
 	CountScenesByPerformer(ctx context.Context, performerID uuid.UUID) (int64, error)
+	CountScenesByPerformerIds(ctx context.Context, dollar_1 []uuid.UUID) ([]CountScenesByPerformerIdsRow, error)
 	CountUnreadNotificationsByUserGroupedByType(ctx context.Context, userID uuid.UUID) ([]CountUnreadNotificationsByUserGroupedByTypeRow, error)
 	CountUserEditsByStatus(ctx context.Context, userID uuid.NullUUID) ([]CountUserEditsByStatusRow, error)
 	CountUsers(ctx context.Context) (int64, error)
@@ -154,11 +155,10 @@ type Querier interface {
 	ExpandPhashNeighbors(ctx context.Context, arg ExpandPhashNeighborsParams) ([]ExpandPhashNeighborsRow, error)
 	ExpandSceneCoMembers(ctx context.Context, sceneIds []uuid.UUID) ([]ExpandSceneCoMembersRow, error)
 	FindActiveInviteKeysForUser(ctx context.Context, generatedBy uuid.UUID) ([]InviteKey, error)
-	// Returns pending edits that fulfill one of the criteria for being closed:
-	// * The full voting period has passed
-	// * The minimum voting period has passed, and the number of votes has crossed the voting threshold.
-	// The latter only applies for destructive edits. Non-destructive edits get auto-applied when sufficient votes are cast.
-	FindCompletedEdits(ctx context.Context, arg FindCompletedEditsParams) ([]Edit, error)
+	// Returns pending edits past either voting deadline, along with the tallies needed to
+	// decide their outcome in Go. The `votes` column is unusable here: a net score cannot tell
+	// a unanimous result apart from a contested one adding up to the same number.
+	FindCompletedEdits(ctx context.Context, arg FindCompletedEditsParams) ([]FindCompletedEditsRow, error)
 	FindDraft(ctx context.Context, id uuid.UUID) (Draft, error)
 	FindDraftsByUser(ctx context.Context, userID uuid.UUID) ([]Draft, error)
 	FindEdit(ctx context.Context, id uuid.UUID) (Edit, error)
@@ -257,7 +257,8 @@ type Querier interface {
 	GetEditVotes(ctx context.Context, editID uuid.UUID) ([]EditVote, error)
 	GetEditsByIds(ctx context.Context, dollar_1 []uuid.UUID) ([]Edit, error)
 	GetEditsByPerformer(ctx context.Context, performerID uuid.UUID) ([]Edit, error)
-	GetEditsByScene(ctx context.Context, sceneID uuid.UUID) ([]Edit, error)
+	// Get edits for multiple scenes
+	GetEditsBySceneIds(ctx context.Context, sceneIds []uuid.UUID) ([]GetEditsBySceneIdsRow, error)
 	GetEditsByStudio(ctx context.Context, studioID uuid.UUID) ([]Edit, error)
 	GetEditsByTag(ctx context.Context, tagID uuid.UUID) ([]Edit, error)
 	GetFingerprint(ctx context.Context, arg GetFingerprintParams) (Fingerprint, error)

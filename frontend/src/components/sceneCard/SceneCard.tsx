@@ -2,20 +2,9 @@ import { faVideo } from "@fortawesome/free-solid-svg-icons";
 import type { FC } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import {
-  Icon,
-  SceneCardPerformerName,
-  Thumbnail,
-} from "src/components/fragments";
+import { Icon, SceneCardPerformerName, Thumbnail } from "src/components/fragments";
 import type { PerformerFragment, Scene, Studio } from "src/graphql";
-import {
-  formatDuration,
-  getImage,
-  imageType,
-  performerHref,
-  sceneHref,
-  studioHref,
-} from "src/utils";
+import { formatDuration, imageType, performerHref, sceneHref, studioHref } from "src/utils";
 
 type Performance = Pick<
   Scene,
@@ -57,7 +46,7 @@ const SceneCard: FC<{ scene: Performance }> = ({ scene }) => {
           <Thumbnail
             alt={scene.title}
             className={imageType(scene.images[0])}
-            image={getImage(scene.images, "landscape")}
+            image={scene.images[0]?.url}
             size={300}
           />
         </Link>
