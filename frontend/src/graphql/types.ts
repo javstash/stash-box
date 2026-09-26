@@ -1885,6 +1885,8 @@ export type SceneCreateInput = {
   director?: InputMaybe<Scalars['String']['input']>;
   duration?: InputMaybe<Scalars['Int']['input']>;
   fingerprints: Array<FingerprintEditInput>;
+  hidecomp?: InputMaybe<Scalars['Boolean']['input']>;
+  hidevr?: InputMaybe<Scalars['Boolean']['input']>;
   image_ids?: InputMaybe<Array<Scalars['ID']['input']>>;
   performers?: InputMaybe<Array<PerformerAppearanceInput>>;
   production_date?: InputMaybe<Scalars['String']['input']>;
@@ -2005,6 +2007,10 @@ export type SceneQueryInput = {
   fingerprints?: InputMaybe<MultiStringCriterionInput>;
   /** Filter to scenes with fingerprints submitted by the user */
   has_fingerprint_submissions?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter to only exclude scenes with compilation tags */
+  hidecomp?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter to only exclude scenes with VR tags */
+  hidevr?: InputMaybe<Scalars['Boolean']['input']>;
   page?: Scalars['Int']['input'];
   /** Filter to only include scenes with this studio as primary or parent */
   parentStudio?: InputMaybe<Scalars['String']['input']>;

@@ -66,6 +66,8 @@ const SceneList: FC<Props> = ({
     dir: { name: "dir", type: "string", default: SortDirectionEnum.DESC },
     favorite: { name: "favorite", type: "string", default: "NONE" },
     tag: { name: "tag", type: "string" },
+    hidevr: { name: "hidevr", type: "boolean", default: false  },
+    hidecomp: { name: "hidecomp", type: "boolean", default: false  },
   });
   const sort = ensureEnum(SceneSortEnum, params.sort);
   const direction = ensureEnum(SortDirectionEnum, params.dir);
@@ -86,6 +88,8 @@ const SceneList: FC<Props> = ({
         (params.tag
           ? { value: [params.tag], modifier: CriterionModifier.INCLUDES }
           : undefined),
+      hidevr: params.hidevr,
+      hidecomp: params.hidecomp,
     },
   });
 
@@ -160,6 +164,35 @@ const SceneList: FC<Props> = ({
           options={favoriteOptions}
         />
       ) : null}
+      <Form.Group controlId="hidevr" className="ms-3">
+        <Form.Check
+          className="mt-2"
+          type="switch"
+          label={`Hide VR`}
+          defaultChecked={false}
+          onChange={(e) =>
+            setParams(
+              "hidevr",
+              e.currentTarget.checked ? true : false,
+            )
+          }
+        />
+      </Form.Group>
+      <Form.Group controlId="hidecomp" className="ms-3">
+        <Form.Check
+        className="mt-2"
+        type="switch"
+        label={`Hide Compilations`}
+        defaultChecked={false}
+        onChange={(e) =>
+          setParams(
+            "hidecomp",
+            e.currentTarget.checked ? true : false,
+          )
+        }
+        />
+      </Form.Group>
+
     </>
   );
 

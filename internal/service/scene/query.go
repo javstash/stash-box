@@ -14,6 +14,14 @@ import (
 	queryhelper "github.com/stashapp/stash-box/internal/service/query"
 )
 
+func parseHardcodedUUID(value string) uuid.UUID {
+	id, err := uuid.FromString(value)
+	if err != nil {
+		panic(err) // Invalid hardcoded UUID is a programming error.
+	}
+	return id
+}
+
 func (s *Scene) Query(ctx context.Context, input models.SceneQueryInput) ([]models.Scene, error) {
 	user := auth.GetCurrentUser(ctx)
 
@@ -71,6 +79,42 @@ func (s *Scene) buildSceneQuery(psql sq.StatementBuilderType, input models.Scene
 	// Filter by tags
 	if input.Tags != nil && len(input.Tags.Value) > 0 {
 		if err := queryhelper.ApplyMultiIDCriterion(&query, "scenes", "scene_tags", "scene_id", "tag_id", input.Tags); err != nil {
+			return query, err
+		}
+	}
+
+	// Hide VR
+	var VRTagIDs = []uuid.UUID{
+		parseHardcodedUUID("0074a893-0ab3-4b6a-9ff8-adacf8bd1373"),
+		parseHardcodedUUID("5fb9c1de-2bac-4f22-ab17-97559abed585"),
+	}
+
+	var hideVRCriterion = &models.MultiIDCriterionInput{
+		Modifier: models.CriterionModifierExcludes,
+		Value:    VRTagIDs,
+	}
+
+	if input.Hidevr != nil && *input.Hidevr {
+		if err := queryhelper.ApplyMultiIDCriterion(&query, "scenes", "scene_tags", "scene_id", "tag_id", hideVRCriterion); err != nil {
+			return query, err
+		}
+	}
+
+	// Hide Compilation
+	var CompTagIDs = []uuid.UUID{
+		parseHardcodedUUID("1b0b8252-2817-4117-95b5-1bad0fbb2f51"),
+		parseHardcodedUUID("a41c429a-4964-4548-8dfd-57bf9777b749"),
+		parseHardcodedUUID("da4f519c-53a9-4e23-8ca5-12b9d6a964a6"),
+		parseHardcodedUUID("d9782b04-149b-4774-9e34-1357e9b07a81"),
+	}
+
+	var hideCompCriterion = &models.MultiIDCriterionInput{
+		Modifier: models.CriterionModifierExcludes,
+		Value:    CompTagIDs,
+	}
+
+	if input.Hidecomp != nil && *input.Hidecomp {
+		if err := queryhelper.ApplyMultiIDCriterion(&query, "scenes", "scene_tags", "scene_id", "tag_id", hideCompCriterion); err != nil {
 			return query, err
 		}
 	}

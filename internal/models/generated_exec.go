@@ -6057,6 +6057,8 @@ input SceneCreateInput {
   studio_id: ID
   performers: [PerformerAppearanceInput!]
   tag_ids: [ID!]
+  hidevr: Boolean
+  hidecomp: Boolean
   image_ids: [ID!]
   fingerprints: [FingerprintEditInput!]!
   duration: Int
@@ -6171,6 +6173,10 @@ input SceneQueryInput {
   parentStudio: String
   """Filter to only include scenes with these tags"""
   tags: MultiIDCriterionInput
+  """Filter to only exclude scenes with VR tags"""
+  hidevr: Boolean
+  """Filter to only exclude scenes with compilation tags"""
+  hidecomp: Boolean
   """Filter to only include scenes with these performers"""
   performers: MultiIDCriterionInput
   """Filter to include scenes with performer appearing as alias"""
@@ -30492,7 +30498,7 @@ func (ec *executionContext) unmarshalInputSceneCreateInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"title", "details", "urls", "date", "production_date", "studio_id", "performers", "tag_ids", "image_ids", "fingerprints", "duration", "director", "code"}
+	fieldsInOrder := [...]string{"title", "details", "urls", "date", "production_date", "studio_id", "performers", "tag_ids", "hidevr", "hidecomp", "image_ids", "fingerprints", "duration", "director", "code"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -30555,6 +30561,20 @@ func (ec *executionContext) unmarshalInputSceneCreateInput(ctx context.Context, 
 				return it, err
 			}
 			it.TagIds = data
+		case "hidevr":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("hidevr"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Hidevr = data
+		case "hidecomp":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("hidecomp"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Hidecomp = data
 		case "image_ids":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image_ids"))
 			data, err := ec.unmarshalOID2ᚕgithubᚗcomᚋgofrsᚋuuidᚐUUIDᚄ(ctx, v)
@@ -30931,7 +30951,7 @@ func (ec *executionContext) unmarshalInputSceneQueryInput(ctx context.Context, o
 		asMap["sort"] = "DATE"
 	}
 
-	fieldsInOrder := [...]string{"text", "title", "url", "code", "date", "production_date", "studios", "parentStudio", "tags", "performers", "alias", "fingerprints", "favorites", "has_fingerprint_submissions", "page", "per_page", "direction", "sort"}
+	fieldsInOrder := [...]string{"text", "title", "url", "code", "date", "production_date", "studios", "parentStudio", "tags", "hidevr", "hidecomp", "performers", "alias", "fingerprints", "favorites", "has_fingerprint_submissions", "page", "per_page", "direction", "sort"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -31001,6 +31021,20 @@ func (ec *executionContext) unmarshalInputSceneQueryInput(ctx context.Context, o
 				return it, err
 			}
 			it.Tags = data
+		case "hidevr":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("hidevr"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Hidevr = data
+		case "hidecomp":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("hidecomp"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Hidecomp = data
 		case "performers":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("performers"))
 			data, err := ec.unmarshalOMultiIDCriterionInput2ᚖgithubᚗcomᚋstashappᚋstashᚑboxᚋinternalᚋmodelsᚐMultiIDCriterionInput(ctx, v)

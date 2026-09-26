@@ -141,6 +141,8 @@ input SceneCreateInput {
   studio_id: ID
   performers: [PerformerAppearanceInput!]
   tag_ids: [ID!]
+  hidevr: Boolean
+  hidecomp: Boolean
   image_ids: [ID!]
   fingerprints: [FingerprintEditInput!]!
   duration: Int
@@ -255,6 +257,10 @@ input SceneQueryInput {
   parentStudio: String
   """Filter to only include scenes with these tags"""
   tags: MultiIDCriterionInput
+  """Filter to only exclude scenes with VR tags"""
+  hidevr: Boolean
+  """Filter to only exclude scenes with compilation tags"""
+  hidecomp: Boolean
   """Filter to only include scenes with these performers"""
   performers: MultiIDCriterionInput
   """Filter to include scenes with performer appearing as alias"""

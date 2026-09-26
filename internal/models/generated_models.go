@@ -713,6 +713,8 @@ type SceneCreateInput struct {
 	StudioID       *uuid.UUID                 `json:"studio_id,omitempty"`
 	Performers     []PerformerAppearanceInput `json:"performers,omitempty"`
 	TagIds         []uuid.UUID                `json:"tag_ids,omitempty"`
+	Hidevr         *bool                      `json:"hidevr,omitempty"`
+	Hidecomp       *bool                      `json:"hidecomp,omitempty"`
 	ImageIds       []uuid.UUID                `json:"image_ids,omitempty"`
 	Fingerprints   []FingerprintEditInput     `json:"fingerprints"`
 	Duration       *int                       `json:"duration,omitempty"`
@@ -782,6 +784,10 @@ type SceneQueryInput struct {
 	ParentStudio *string `json:"parentStudio,omitempty"`
 	// Filter to only include scenes with these tags
 	Tags *MultiIDCriterionInput `json:"tags,omitempty"`
+	// Filter to only exclude scenes with VR tags
+	Hidevr *bool `json:"hidevr,omitempty"`
+	// Filter to only exclude scenes with compilation tags
+	Hidecomp *bool `json:"hidecomp,omitempty"`
 	// Filter to only include scenes with these performers
 	Performers *MultiIDCriterionInput `json:"performers,omitempty"`
 	// Filter to include scenes with performer appearing as alias
