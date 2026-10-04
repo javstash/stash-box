@@ -26,7 +26,8 @@ const warnTags = [
   "/tags/1b0b8252-2817-4117-95b5-1bad0fbb2f51",
   "/tags/a41c429a-4964-4548-8dfd-57bf9777b749",
   "/tags/da4f519c-53a9-4e23-8ca5-12b9d6a964a6",
-  "/tags/d9782b04-149b-4774-9e34-1357e9b07a81"
+  "/tags/d9782b04-149b-4774-9e34-1357e9b07a81",
+  "/tags/01a0e1e6-5dd0-7938-8e35-84c27e375800"
 ];
 
 const TagLink: FC<IProps> = ({
