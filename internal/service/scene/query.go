@@ -87,6 +87,7 @@ func (s *Scene) buildSceneQuery(psql sq.StatementBuilderType, input models.Scene
 	var VRTagIDs = []uuid.UUID{
 		parseHardcodedUUID("0074a893-0ab3-4b6a-9ff8-adacf8bd1373"),
 		parseHardcodedUUID("5fb9c1de-2bac-4f22-ab17-97559abed585"),
+		parseHardcodedUUID("01a0e1e6-96d6-7741-ad38-06293e5def11"),
 	}
 
 	var hideVRCriterion = &models.MultiIDCriterionInput{
@@ -106,6 +107,7 @@ func (s *Scene) buildSceneQuery(psql sq.StatementBuilderType, input models.Scene
 		parseHardcodedUUID("a41c429a-4964-4548-8dfd-57bf9777b749"),
 		parseHardcodedUUID("da4f519c-53a9-4e23-8ca5-12b9d6a964a6"),
 		parseHardcodedUUID("d9782b04-149b-4774-9e34-1357e9b07a81"),
+		parseHardcodedUUID("01a0e1e6-5dd0-7938-8e35-84c27e375800"),
 	}
 
 	var hideCompCriterion = &models.MultiIDCriterionInput{
